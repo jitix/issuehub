@@ -57,6 +57,8 @@
             <version>2.5</version>
         </dependency>
         
+        <!-- Utils -->
+        
         <dependency>
             <groupId>ma.glasnost.orika</groupId>
             <artifactId>orika-core</artifactId>
@@ -68,7 +70,12 @@
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
         </dependency>
-
+        
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
      
         <!-- Jackson JSON Processor -->
         <dependency>

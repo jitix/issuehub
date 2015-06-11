@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
+import net.jitix.issuehub.controller.exception.PermissionException;
 import net.jitix.issuehub.service.UserService;
 import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.AuthenticationRequest;
@@ -26,72 +27,55 @@ public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
             consumes = "application/json", produces = "application/json")
-    public UserDetails authenticate(@RequestBody AuthenticationRequest authRequest,
-            HttpServletRequest request, HttpServletResponse response) {
-        if (this.userService.authenticateUser(authRequest.getEmail(), authRequest.getPassword())) {
-            UserDetails user = this.userService.getUserByEmail(authRequest.getEmail());
-
-            //put user object in session
-            request.getSession().setAttribute(Constants.USER_SESSION_ATTR_KEY, user);
-
-            return user;
-        } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return null;
-        }
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.POST, 
-            consumes = "application/json", produces="application/json")
     public UserDetails createUser(@RequestBody UserSaveDetails user,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException {
-        ControllerUtil.checkAdminSession(request.getSession());
-
-        this.userService.saveUser(user);
+            throws AuthorizationException, PermissionException, Exception {
+        //ControllerUtil.checkAdminSession(request.getSession());
         
+        this.userService.saveUser(user);
+
         return this.userService.getUserByEmail(user.getEmail());
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public List<UserDetails> listUsers(
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException {
+            throws AuthorizationException, PermissionException {
         ControllerUtil.checkAdminSession(request.getSession());
-        
+
         return this.userService.listUsers();
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT, consumes = "application/json")
     public void updateUserDetails(@PathVariable String userId, @RequestBody UserSaveDetails user,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException {
-        
+            throws AuthorizationException, PermissionException {
+
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
-        
+
         this.userService.saveUser(user);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String userId,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException {
-        
+            throws AuthorizationException, PermissionException {
+
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
-        
+
         this.userService.deleteUser(userId);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
     public UserDetails getUserDetails(@PathVariable String userId,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException {
-        
+            throws AuthorizationException, PermissionException {
+
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
-        
+
         return this.userService.getUser(userId);
     }
 
