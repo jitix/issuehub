@@ -1,30 +1,22 @@
-package net.jitix.issuehub.entity;
+package net.jitix.issuehub.vo;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class UserDetails {
 
-@Document(collection = "users")
-public class User {
-
-    @Id
     private String userId;
 
     private String userName;
 
     private String email;
 
-    private String passwordHash;
-
     private Boolean adminFlag;
 
-    public User() {
+    public UserDetails() {
     }
 
-    public User(String userId, String userName, String email, String passwordHash, Boolean adminFlag) {
+    public UserDetails(String userId, String userName, String email, Boolean adminFlag) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
-        this.passwordHash = passwordHash;
         this.adminFlag = adminFlag;
     }
 
@@ -52,14 +44,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
     public Boolean getAdminFlag() {
         return adminFlag;
     }
@@ -70,7 +54,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", userName=" + userName + ", email=" + email + ", passwordHash=" + passwordHash + ", adminFlag=" + adminFlag + '}';
+        return "UserDetails{" + "userId=" + userId + ", userName=" + userName + ", email=" + email + ", adminFlag=" + adminFlag + '}';
     }
-    
+
 }

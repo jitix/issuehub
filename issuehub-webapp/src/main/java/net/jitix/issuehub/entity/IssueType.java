@@ -4,7 +4,7 @@ import java.util.List;
 
 public class IssueType {
 
-    private Integer issueTypeId;
+    private String issueTypeId;
 
     private String issueType;
 
@@ -13,17 +13,17 @@ public class IssueType {
     public IssueType() {
     }
 
-    public IssueType(Integer issueTypeId, String issueType, List<Status> statusList) {
+    public IssueType(String issueTypeId, String issueType, List<Status> statusList) {
         this.issueTypeId = issueTypeId;
         this.issueType = issueType;
         this.statusList = statusList;
     }
 
-    public Integer getIssueTypeId() {
+    public String getIssueTypeId() {
         return issueTypeId;
     }
 
-    public void setIssueTypeId(Integer issueTypeId) {
+    public void setIssueTypeId(String issueTypeId) {
         this.issueTypeId = issueTypeId;
     }
 

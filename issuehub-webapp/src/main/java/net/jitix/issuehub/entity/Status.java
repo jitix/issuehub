@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Status {
 
-    private Integer statusId;
+    private String statusId;
 
     private String status;
 
@@ -13,17 +13,17 @@ public class Status {
     public Status() {
     }
 
-    public Status(Integer statusId, String status, List<String> substatusList) {
+    public Status(String statusId, String status, List<String> substatusList) {
         this.statusId = statusId;
         this.status = status;
         this.substatusList = substatusList;
     }
 
-    public Integer getStatusId() {
+    public String getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Integer statusId) {
+    public void setStatusId(String statusId) {
         this.statusId = statusId;
     }
 

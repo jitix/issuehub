@@ -6,10 +6,9 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>IssueHub Webapp</name>
-    <url>http://maven.apache.org</url>
     
     <properties>
-        <spring.version>4.1.4.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
     </properties>
     
     <dependencies>
@@ -20,7 +19,7 @@
             <scope>test</scope>
         </dependency>
      
-        <!-- Spring MVC support -->
+        <!-- Spring -->
      
         <dependency>
             <groupId>org.springframework</groupId>
@@ -39,6 +38,24 @@
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+     
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
      
         <!-- Jackson JSON Processor -->
         <dependency>
@@ -46,8 +63,61 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.4.1</version>
         </dependency>
+        
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        
+        <!-- Spring Data -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.7.0.RELEASE</version>
+        </dependency>
+        
+        <!-- MongoDB -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+    
     </dependencies>
+    
+    
     <build>
-        <finalName>issuehub-webapp</finalName>
+        <finalName>issuehub</finalName>
+        
+        <plugins>
+            <!-- Plugins config -->
+ 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <failOnMissingWebXml>true</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+        
     </build>
 </project>

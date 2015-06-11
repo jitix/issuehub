@@ -1,0 +1,40 @@
+package net.jitix.issuehub.util;
+
+import javax.servlet.http.HttpSession;
+import net.jitix.issuehub.common.Constants;
+import net.jitix.issuehub.controller.exception.AuthorizationException;
+import net.jitix.issuehub.entity.User;
+
+public class ControllerUtil {
+
+    public static void checkAdminSession(HttpSession session)
+            throws AuthorizationException {
+        if (!(session.getAttribute(Constants.USER_SESSION_ATTR_KEY) != null
+                && session.getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof User
+                && ((User) session.getAttribute(Constants.USER_SESSION_ATTR_KEY))
+                .getAdminFlag())) {
+            throw new AuthorizationException();
+        }
+    }
+
+    public static void checkValidSession(HttpSession session)
+            throws AuthorizationException {
+        if (!(session.getAttribute(Constants.USER_SESSION_ATTR_KEY) != null
+                && session.getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof User));
+    }
+
+    public static void checkUserPermission(String userId, HttpSession session)
+            throws AuthorizationException {
+        //if there is a valid session then check the user type
+        User sessionUser = (User) session
+                .getAttribute(Constants.USER_SESSION_ATTR_KEY);
+
+        if (!sessionUser.getAdminFlag()) {
+            //if user is not admin and they are trying to modify another account
+            if (!sessionUser.getUserId().equals(userId)) {
+                throw new AuthorizationException();
+            }
+        }
+    }
+
+}
