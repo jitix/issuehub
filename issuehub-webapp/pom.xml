@@ -134,6 +134,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
+                    <warName>issuehub.war</warName>
                     <failOnMissingWebXml>true</failOnMissingWebXml>
                 </configuration>
             </plugin>
