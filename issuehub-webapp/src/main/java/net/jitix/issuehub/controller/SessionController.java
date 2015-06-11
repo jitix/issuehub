@@ -24,7 +24,7 @@ public class SessionController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = "application/json", produces = "application/json")
-    public UserDetails authenticate(@RequestBody AuthenticationRequest authRequest,
+    public UserDetails createSession(@RequestBody AuthenticationRequest authRequest,
             HttpServletRequest request, HttpServletResponse response) throws AppException {
         if (this.userService.authenticateUser(authRequest.getEmail(), authRequest.getPassword())) {
             UserDetails user = this.userService.getUserByEmail(authRequest.getEmail());
@@ -41,7 +41,7 @@ public class SessionController {
     
     @RequestMapping(value = "/remove", method = RequestMethod.POST,
             consumes = "application/json", produces = "application/json")
-    public void authenticate(
+    public void removeSession(
             HttpServletRequest request, HttpServletResponse response) 
             throws AuthorizationException {
         ControllerUtil.checkValidSession(request.getSession());
