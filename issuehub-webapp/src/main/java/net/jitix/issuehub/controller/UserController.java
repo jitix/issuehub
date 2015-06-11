@@ -13,6 +13,7 @@ import net.jitix.issuehub.vo.AuthenticationRequest;
 import net.jitix.issuehub.vo.UserDetails;
 import net.jitix.issuehub.vo.UserSaveDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
-            consumes = "application/json", produces = "application/json")
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDetails createUser(@RequestBody UserSaveDetails user,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, Exception {
@@ -38,16 +39,18 @@ public class UserController {
         return this.userService.getUserByEmail(user.getEmail());
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDetails> listUsers(
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, AppException {
         ControllerUtil.checkAdminSession(request.getSession());
 
+        
+        
         return this.userService.listUsers();
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateUserDetails(@PathVariable String userId, @RequestBody UserSaveDetails userDetails,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, AppException {
@@ -69,7 +72,7 @@ public class UserController {
         this.userService.deleteUser(userId);
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDetails getUserDetails(@PathVariable String userId,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, AppException {

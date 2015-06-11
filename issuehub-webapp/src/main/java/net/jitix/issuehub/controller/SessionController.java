@@ -10,6 +10,7 @@ import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.AuthenticationRequest;
 import net.jitix.issuehub.vo.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ public class SessionController {
     private UserService userService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST,
-            consumes = "application/json", produces = "application/json")
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDetails createSession(@RequestBody AuthenticationRequest authRequest,
             HttpServletRequest request, HttpServletResponse response) throws AppException {
         if (this.userService.authenticateUser(authRequest.getEmail(), authRequest.getPassword())) {
@@ -40,7 +41,7 @@ public class SessionController {
     }
     
     @RequestMapping(value = "/remove", method = RequestMethod.POST,
-            consumes = "application/json", produces = "application/json")
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void removeSession(
             HttpServletRequest request, HttpServletResponse response) 
             throws AuthorizationException {

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 public class ControllerUtil {
 
@@ -58,7 +59,7 @@ public class ControllerUtil {
                 LOG.error("Caught Exception: {}", ex.getMessage(), ex);
 
                 if (StringUtils.isNotBlank(ex.getMessage())) {
-                    response.setContentType("application/json");
+                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     response.getWriter().print("{\"msg\":\"" + StringEscapeUtils.escapeJson(ex.getMessage()) + "\"}");
 
                     response.getWriter().close();
