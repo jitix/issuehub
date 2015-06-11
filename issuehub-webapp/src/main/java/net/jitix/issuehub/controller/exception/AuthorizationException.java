@@ -1,6 +1,8 @@
 package net.jitix.issuehub.controller.exception;
 
-public class AuthorizationException extends Exception{
+import net.jitix.issuehub.exception.AppException;
+
+public class AuthorizationException extends AppException{
 
     public AuthorizationException(String msg){
         super(msg);

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
+import net.jitix.issuehub.exception.AppException;
 import net.jitix.issuehub.service.UserService;
 import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.AuthenticationRequest;
@@ -24,7 +25,7 @@ public class SessionController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = "application/json", produces = "application/json")
     public UserDetails authenticate(@RequestBody AuthenticationRequest authRequest,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws AppException {
         if (this.userService.authenticateUser(authRequest.getEmail(), authRequest.getPassword())) {
             UserDetails user = this.userService.getUserByEmail(authRequest.getEmail());
 

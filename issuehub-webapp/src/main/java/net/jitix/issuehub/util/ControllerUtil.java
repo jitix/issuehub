@@ -6,16 +6,22 @@ import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
 import net.jitix.issuehub.controller.exception.PermissionException;
 import net.jitix.issuehub.entity.User;
+import net.jitix.issuehub.vo.UserDetails;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 public class ControllerUtil {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(ControllerUtil.class);
+
     public static void checkAdminSession(HttpSession session)
             throws AuthorizationException, PermissionException {
         checkValidSession(session);
 
-        if (!((User) session.getAttribute(Constants.USER_SESSION_ATTR_KEY))
+        if (!((UserDetails) session.getAttribute(Constants.USER_SESSION_ATTR_KEY))
                 .getAdminFlag()) {
             throw new PermissionException();
         }
@@ -24,7 +30,9 @@ public class ControllerUtil {
     public static void checkValidSession(HttpSession session)
             throws AuthorizationException {
         if (!(session.getAttribute(Constants.USER_SESSION_ATTR_KEY) != null
-                && session.getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof User));
+                && session.getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof UserDetails)) {
+            throw new AuthorizationException();
+        }
     }
 
     public static void checkUserPermission(String userId, HttpSession session)
@@ -45,10 +53,17 @@ public class ControllerUtil {
 
         try {
             response.setStatus(status.value());
-            response.setContentType("application/json");
-            response.getWriter().print("{\"msg\":\"" + StringEscapeUtils.escapeJson(ex.getMessage()) + "\"}");
 
-            response.getWriter().close();
+            if (ex != null) {
+                LOG.error("Caught Exception: {}", ex.getMessage(), ex);
+
+                if (StringUtils.isNotBlank(ex.getMessage())) {
+                    response.setContentType("application/json");
+                    response.getWriter().print("{\"msg\":\"" + StringEscapeUtils.escapeJson(ex.getMessage()) + "\"}");
+
+                    response.getWriter().close();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
 import net.jitix.issuehub.controller.exception.PermissionException;
+import net.jitix.issuehub.exception.AppException;
 import net.jitix.issuehub.service.UserService;
 import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.AuthenticationRequest;
@@ -30,9 +31,9 @@ public class UserController {
     public UserDetails createUser(@RequestBody UserSaveDetails user,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, Exception {
-        //ControllerUtil.checkAdminSession(request.getSession());
+        ControllerUtil.checkAdminSession(request.getSession());
         
-        this.userService.saveUser(user);
+        this.userService.saveUser(null,user);
 
         return this.userService.getUserByEmail(user.getEmail());
     }
@@ -40,27 +41,27 @@ public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public List<UserDetails> listUsers(
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException, PermissionException {
+            throws AuthorizationException, PermissionException, AppException {
         ControllerUtil.checkAdminSession(request.getSession());
 
         return this.userService.listUsers();
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT, consumes = "application/json")
-    public void updateUserDetails(@PathVariable String userId, @RequestBody UserSaveDetails user,
+    public void updateUserDetails(@PathVariable String userId, @RequestBody UserSaveDetails userDetails,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException, PermissionException {
+            throws AuthorizationException, PermissionException, AppException {
 
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
 
-        this.userService.saveUser(user);
+        this.userService.saveUser(userId,userDetails);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String userId,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException, PermissionException {
+            throws AuthorizationException, PermissionException, AppException {
 
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
@@ -71,7 +72,7 @@ public class UserController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
     public UserDetails getUserDetails(@PathVariable String userId,
             HttpServletRequest request, HttpServletResponse response)
-            throws AuthorizationException, PermissionException {
+            throws AuthorizationException, PermissionException, AppException {
 
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
