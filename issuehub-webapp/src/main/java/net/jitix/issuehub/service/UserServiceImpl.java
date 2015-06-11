@@ -1,6 +1,7 @@
 package net.jitix.issuehub.service;
 
 import java.util.List;
+import javax.annotation.PostConstruct;
 import net.jitix.issuehub.entity.User;
 import net.jitix.issuehub.exception.AppException;
 import net.jitix.issuehub.util.ObjectMappingUtil;
@@ -23,6 +24,11 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
     @Autowired
     private ObjectMappingUtil mappingUtil;
 
+    @PostConstruct
+    public void createDefaultUser(){
+        
+    }
+    
     @Override
     public boolean authenticateUser(String email, String password) throws AppException {
         User user = this.getMongoOperations().findOne(
