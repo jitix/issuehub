@@ -1,6 +1,9 @@
 package net.jitix.issuehub.config;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,7 +13,11 @@ public class MongoConfig {
 
     public @Bean
     MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(new MongoClient(), "issuehub");
+        MongoClientOptions.builder().writeConcern(WriteConcern.JOURNALED);
+        return new SimpleMongoDbFactory(new MongoClient(
+                new ServerAddress("localhost"),
+                MongoClientOptions.builder().writeConcern(WriteConcern.JOURNALED).build()
+        ),  "issuehub");
     }
 
     public @Bean
