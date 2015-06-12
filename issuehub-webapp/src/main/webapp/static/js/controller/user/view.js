@@ -1,6 +1,9 @@
-issuehubApp.controller('viewUserController', ['$scope', '$http', function($scope, $http) {
-        
+issuehubApp.controller('viewUserController', ['$scope', '$routeParams', '$http',
+    function($scope, $routeParams, $http) {
+
         $scope.userId = $routeParams.userId;
+
+        $scope.somevar = "fsf";
 
 
     }])
