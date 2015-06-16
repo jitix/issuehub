@@ -1,5 +1,5 @@
 <div class="container">
-    <form class="new-user-form" ng-submit="createUser()">
+    <form class="user-form" ng-submit="createUser()">
         <h2>Create new user</h2>
         <label for="inputUsername" class="sr-only">Name</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus ng-model="userDetails.userName">
@@ -11,7 +11,7 @@
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="userDetails.password">
         <br>
         <label for="inputAdminFlag" class="sr-only">Admin</label>
-        <input type="checkbox" id="inputAdminFlag" class="" required ng-model="userDetails.adminFlag"> Admin User
+        <input type="checkbox" id="inputAdminFlag" class="" ng-model="userDetails.adminFlag"> Admin User
 
         <br><br>
         <button class="btn btn-sm btn-primary" type="submit">Create</button>

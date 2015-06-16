@@ -16,6 +16,7 @@
 
         <script src="static/js/service/MessageService.js"></script>
         <script src="static/js/service/HttpService.js"></script>
+        <script src="static/js/service/SessionService.js"></script>
 
         <script src="static/js/controller/nav.js"></script>
         <script src="static/js/controller/msg.js"></script>
@@ -40,21 +41,24 @@
                         </a>
                     </div>
 
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-left">
                         <li ng-show="loggedIn"><a href="#/"><i class="fa fa-home"></i> Dashboard</a></li>
                         <li ng-show="loggedIn"><a href="#/issues"><i class="fa fa-shield"></i> Issues</a></li>
                         <li ng-show="loggedIn"><a href="#/reports"><i class="fa fa-shield"></i> Reports</a></li>
                         <li ng-show="loggedIn && isAdmin"><a href="#/users"><i class="fa fa-shield"></i> Users</a></li>
-                        <li ng-show="loggedIn"><a href="#/users/{{userDetails.userId}}"><i class="fa fa-shield"></i> Profile</a></li>
                         <li ng-show="loggedIn && isAdmin"><a href="#/projects"><i class="fa fa-shield"></i> Projects</a></li>
                         <li ng-show="loggedIn && isAdmin"><a href="#/issuetypes"><i class="fa fa-shield"></i> IssueTypes</a></li>
-                        <li ng-show="loggedIn"><button class="fa fa-shield btn btn-sm btn-info btn-sm">Logout</button></li>
+                    </ul>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-show="loggedIn"><a href="#/users/{{userId}}"><i class="fa fa-shield"></i> Profile</a></li>
+                        <li ng-show="loggedIn"><button class="fa fa-shield btn btn-sm btn-info btn-toolbar" ng-click="logout()">Logout</button></li>
                     </ul>
                 </div>
             </nav>
         </header>
 
-        <div class="container" ng-controller="msgController">
+        <div class="container msgbox" ng-controller="msgController">
             <div class="alert alert-danger" role="alert" ng-show="(msgType === 'error')">{{msgText}}</div>
             <div class="alert alert-info" role="alert" ng-show="(msgType === 'info')">{{msgText}}</div>
             <div class="alert alert-success" role="alert" ng-show="(msgType === 'success')">{{msgText}}</div>

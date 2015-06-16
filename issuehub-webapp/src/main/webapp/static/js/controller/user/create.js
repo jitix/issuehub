@@ -1,32 +1,22 @@
 issuehubApp.controller('createUserController',
-        ['$scope', '$http', 'MessageService',
-            function($scope, $http, MessageService) {
+        ['$scope', '$location', 'HttpService',
+            function($scope, $location, HttpService) {
 
-                $scope.userDetails = {};
+                $scope.userDetails = {adminFlag: false};
 
                 $scope.createUser = function() {
+                    HttpService.call('api/users/', 'POST', $scope.userDetails,
+                            {
+                                successMessage: 'Created new user ' + $scope.userName,
+                                failureMessage: 'Error creating new user',
+                                successCallback: function(responseData) {
+                                    $location.path('users/');
+                                },
+                                failureCallback: function(responseData) {
 
-                    alert(angular.toJson($scope.userDetails, true));
-
-                    $http({
-                        method: 'POST',
-                        url: 'api/users/',
-                        data: $scope.userDetails,
-                        headers: {'Content-Type': 'application/json'}
-                    })
-                            .success(function(data, status, headers, config) {
-                                console.log("Success. Data: " + data);
-                                MessageService.setMessage('success', 'Successfully created user '
-                                        + $scope.userDetails.userName);
-                            })
-                            .error(function(data, status, headers, config) {
-                                console.log(data);
-                                if (data.hasOwnProperty("msg")) {
-                                    MessageService.setMessage('error', data.msg)
-                                }
-                                else {
-                                    MessageService.setMessage('error', 'Could not create user')
-                                }
+                                },
+                                successMsgRetention: 1,
+                                failureMsgRetention: 0
                             });
                 }
 

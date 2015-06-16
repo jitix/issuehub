@@ -16,7 +16,7 @@ issuehubApp.service("HttpService",
                                 console.log("Success. Response Data:" + angular.toJson(responseData, true));
                                 if (callOptions.successMessage) {
                                     MessageService.setMessage('success',
-                                            callOptions.successMessage, callOptions.msgRetention);
+                                            callOptions.successMessage, callOptions.successMsgRetention);
                                 }
 
                                 callOptions.successCallback(responseData);
@@ -25,12 +25,12 @@ issuehubApp.service("HttpService",
                                 console.log("Error. Response Data:" + angular.toJson(responseData, true));
                                 if (responseData.hasOwnProperty("msg")) {
                                     MessageService.setMessage('error',
-                                            responseData.msg, callOptions.msgRetention);
+                                            responseData.msg, callOptions.failureMsgRetention);
                                 }
                                 else {
                                     if (callOptions.failureMesssage) {
                                         MessageService.setMessage('error',
-                                                callOptions.failureMesssage, callOptions.msgRetention);
+                                                callOptions.failureMesssage, callOptions.failureMsgRetention);
                                     }
                                 }
 
