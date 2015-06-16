@@ -1,19 +1,31 @@
 issuehubApp.controller('listUserController',
-        ['$scope', 'HttpService', 'SessionService',
-            function($scope, HttpService, SessionService) {
-                
+        ['$scope', '$location', 'HttpService', 'SessionService',
+            function($scope, $location, HttpService, SessionService) {
+
                 SessionService.checkAdminUserSession(
-                        '/','You need to be an admin user to view user list');
+                        '/', 'You need to be an admin user to view user list');
+
+                $scope.userList = [];
+
+                $scope.showNewUser = function() {
+                    $location.path("users/create");
+                };
                 
-                $scope.userList=[];
+                $scope.showViewUser = function(userId) {
+                    $location.path("users/"+userId);
+                };
                 
-                $scope.fetchUsers=function(){
+                $scope.showDeleteDialog = function(userId) {
+                    $location.path("users/"+userId+"/delete");
+                };
+
+                $scope.fetchUsers = function() {
                     HttpService.call('api/users/', 'GET', {},
                             {
                                 failureMessage: 'Error fetching users list',
                                 successCallback: function(responseData) {
-                                    if(responseData){
-                                        $scope.userList=responseData;
+                                    if (responseData) {
+                                        $scope.userList = responseData;
                                     }
                                 },
                                 failureCallback: function(responseData) {
@@ -22,8 +34,8 @@ issuehubApp.controller('listUserController',
                                 failureMsgRetention: 0
                             });
                 };
-                
+
                 $scope.fetchUsers();
-                
+
             }])
 

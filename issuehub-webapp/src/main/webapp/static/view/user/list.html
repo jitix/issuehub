@@ -1,13 +1,20 @@
 <div class="container">
-    <h2>Users</h2>
+    <div class="row">
+        <div class="col-md-6"><h2>Users</h2></div>
+        <div class="col-md-6">
+            <span class="pull-right">
+                <button ng-click="showNewUser()" class="btn btn-sm btn-primary btn-sm" type="submit">New User</button>
+            </span>
+        </div>
+    </div>
 
     <table class="table table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th>User Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Admin</th>
-                <th>Action</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -15,8 +22,15 @@
                 <td>{{user.userName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.adminFlag}}</td>
-                <td>
-                    <a href="#/users/{{user.userId}}">view</a>
+                <td class="list_action">
+                    <span class="pull-right">
+                        <button ng-click="showViewUser(user.userId)" 
+                                class="btn btn-sm btn-default" type="submit">View</button>
+                        <!--                    <a href="#/users/{{user.userId}}">view</a>-->
+
+                        <button ng-click="showDeleteDialog(user.userId)" 
+                                class="btn btn-sm btn-danger" type="submit">Delete</button>
+                    </span>
                 </td>
             </tr>
         </tbody>

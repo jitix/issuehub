@@ -15,6 +15,7 @@ issuehubApp.service("HttpService",
 
                                 console.log("Success. Response Data:" + angular.toJson(responseData, true));
                                 if (callOptions.successMessage) {
+                                    alert("setting: "+callOptions.successMessage+" ~ "+callOptions.successMsgRetention);
                                     MessageService.setMessage('success',
                                             callOptions.successMessage, callOptions.successMsgRetention);
                                 }
