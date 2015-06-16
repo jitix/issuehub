@@ -25,17 +25,17 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
     private ObjectMappingUtil mappingUtil;
 
     @PostConstruct
-    public void createDefaultUser(){
-        
+    public void createDefaultUser() {
+
     }
-    
+
     @Override
     public boolean authenticateUser(String email, String password) throws AppException {
         User user = this.getMongoOperations().findOne(
                 new Query(Criteria.where("email").is(email)), User.class);
         String passwordHash = DigestUtils.sha256Hex(password);
-        
-        if(user==null){
+
+        if (user == null) {
             throw new AppException("User does not exist");
         }
 
@@ -44,16 +44,24 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
 
     @Override
     public void saveUser(String userId, UserSaveDetails userSaveDetails) throws AppException {
-        User user = this.mappingUtil.map(userSaveDetails, User.class);
-        user.setUserId(userId);
-        user.setPasswordHash(DigestUtils.sha256Hex(userSaveDetails.getPassword()));
+        boolean isUpdate = (userId != null);
 
-        //check if email already exists
-        UserDetails existingUser = this.getUserByEmail(userSaveDetails.getEmail());
-        if (existingUser != null) {
-            //if its its new user details or email is registered with existing different user
-            if (StringUtils.isEmpty(userId) || !existingUser.getUserId().equals(userId)) {
-                throw new AppException("Email address is already in use by different user");
+        User user = this.mappingUtil.map(userSaveDetails, User.class);
+
+        if (StringUtils.isNotBlank(userSaveDetails.getPassword())) {
+            user.setPasswordHash(DigestUtils.sha256Hex(userSaveDetails.getPassword()));
+        }
+
+        if (isUpdate) {
+            user.setUserId(userId);
+        } else {
+            //check if email already exists in case of new use creation
+            UserDetails existingUser = this.getUserByEmail(userSaveDetails.getEmail());
+            if (existingUser != null) {
+                //if its its new user details or email is registered with existing different user
+                if (StringUtils.isEmpty(userId) || !existingUser.getUserId().equals(userId)) {
+                    throw new AppException("Email address is already in use by different user");
+                }
             }
         }
 

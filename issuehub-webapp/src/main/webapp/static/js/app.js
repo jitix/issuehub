@@ -3,15 +3,25 @@ var viewPath = 'static/view/';
 //create module
 var issuehubApp = angular.module('issuehubApp', ['ngRoute']);
 
-issuehubApp.run(function($rootScope) {
-    //$rootScope.userDetails=null;
-//    $rootScope.userDetails={
-//        userId:'278748729',
-//        userName:'Bob',
-//        email:'bob@bob.com',
-//        adminFlag:true
-//    };
-//    
-//    $rootScope.msgType=null;
-//    $rootScope.msg=null;
-})
+issuehubApp.run(
+        ['$rootScope','$location', 'HttpService', 'SessionService',
+            function($rootScope,$location, HttpService, SessionService) {
+                
+                SessionService.updateCurrentUser();
+                
+//                //get session from backend
+//                HttpService.call('api/session/', 'GET', {},
+//                        {
+//                            successCallback: function(responseData) {
+//                                alert(angular.toJson(responseData,true))
+//                                if (responseData) {
+//                                    SessionService.setCurrentUser(responseData);
+//                                    //$location.path("/");
+//                                }
+//                            },
+//                            failureCallback: function(responseData) {
+//
+//                            }
+//                        });
+            }]
+        )

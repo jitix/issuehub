@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
 import net.jitix.issuehub.controller.exception.PermissionException;
-import net.jitix.issuehub.entity.User;
 import net.jitix.issuehub.vo.UserDetails;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +38,7 @@ public class ControllerUtil {
     public static void checkUserPermission(String userId, HttpSession session)
             throws PermissionException {
         //if there is a valid session then check the user type
-        User sessionUser = (User) session
+        UserDetails sessionUser = (UserDetails) session
                 .getAttribute(Constants.USER_SESSION_ATTR_KEY);
 
         if (!sessionUser.getAdminFlag()) {
