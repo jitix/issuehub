@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Status {
 
-    private String statusId;
-
     private String status;
 
     private List<String> substatusList;
@@ -13,18 +11,9 @@ public class Status {
     public Status() {
     }
 
-    public Status(String statusId, String status, List<String> substatusList) {
-        this.statusId = statusId;
+    public Status(String status, List<String> substatusList) {
         this.status = status;
         this.substatusList = substatusList;
-    }
-
-    public String getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(String statusId) {
-        this.statusId = statusId;
     }
 
     public String getStatus() {
@@ -45,7 +34,7 @@ public class Status {
 
     @Override
     public String toString() {
-        return "Status{" + "statusId=" + statusId + ", status=" + status + ", substatusList=" + substatusList + '}';
+        return "Status{status=" + status + ", substatusList=" + substatusList + '}';
     }
 
 }

@@ -14,7 +14,7 @@ issuehubApp.service("MessageService",
 
                 this.getMessage = function() {
                     var msgCopy = angular.fromJson(angular.toJson(this.msg));
-                    if (this.msg.msgRetention <= 0) {
+                    if (this.msg.msgRetention < 0) {
                         this.msg = {msgType: null, msgText: null, msgRetention: 0};
                     }
                     else {

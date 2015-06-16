@@ -3,15 +3,15 @@ package net.jitix.issuehub.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.jitix.issuehub.common.Constants;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
 import net.jitix.issuehub.controller.exception.PermissionException;
 import net.jitix.issuehub.exception.AppException;
 import net.jitix.issuehub.service.UserService;
 import net.jitix.issuehub.util.ControllerUtil;
-import net.jitix.issuehub.vo.AuthenticationRequest;
 import net.jitix.issuehub.vo.UserDetails;
 import net.jitix.issuehub.vo.UserSaveDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
@@ -33,8 +35,8 @@ public class UserController {
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, Exception {
         ControllerUtil.checkAdminSession(request.getSession());
-        
-        this.userService.saveUser(null,user);
+
+        this.userService.saveUser(null, user);
 
         return this.userService.getUserByEmail(user.getEmail());
     }
@@ -45,8 +47,6 @@ public class UserController {
             throws AuthorizationException, PermissionException, AppException {
         ControllerUtil.checkAdminSession(request.getSession());
 
-        
-        
         return this.userService.listUsers();
     }
 
@@ -58,7 +58,7 @@ public class UserController {
         ControllerUtil.checkValidSession(request.getSession());
         ControllerUtil.checkUserPermission(userId, request.getSession());
 
-        this.userService.saveUser(userId,userDetails);
+        this.userService.saveUser(userId, userDetails);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)

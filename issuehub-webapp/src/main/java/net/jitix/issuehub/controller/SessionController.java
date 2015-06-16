@@ -9,6 +9,8 @@ import net.jitix.issuehub.service.UserService;
 import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.AuthenticationRequest;
 import net.jitix.issuehub.vo.UserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/session")
 public class SessionController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SessionController.class);
+    
     @Autowired
     private UserService userService;
 
@@ -28,12 +32,8 @@ public class SessionController {
     public UserDetails getSessionDetails(
             HttpServletRequest request, HttpServletResponse response) throws AppException {
         
-//        System.out.println("Session get: "+request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY));
-//        System.out.println("Session get: "+request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY).getClass());
-//        
         if(request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY) != null
                 && request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof UserDetails){
-            //System.out.println("Session get: "+request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY));
             return (UserDetails)request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY);
         }
         else{
@@ -48,10 +48,9 @@ public class SessionController {
         if (this.userService.authenticateUser(authRequest.getEmail(), authRequest.getPassword())) {
             UserDetails user = this.userService.getUserByEmail(authRequest.getEmail());
 
-            //put user object in session
             request.getSession().setAttribute(Constants.USER_SESSION_ATTR_KEY, user);
 
-            System.out.println("Session add: "+request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY));
+            LOG.info("Session add: {}",request.getSession().getAttribute(Constants.USER_SESSION_ATTR_KEY));
             
             return user;
         } else {

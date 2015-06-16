@@ -15,7 +15,6 @@ issuehubApp.service("HttpService",
 
                                 console.log("Success. Response Data:" + angular.toJson(responseData, true));
                                 if (callOptions.successMessage) {
-                                    alert("setting: "+callOptions.successMessage+" ~ "+callOptions.successMsgRetention);
                                     MessageService.setMessage('success',
                                             callOptions.successMessage, callOptions.successMsgRetention);
                                 }
@@ -25,12 +24,12 @@ issuehubApp.service("HttpService",
                             .error(function(responseData, status, headers, config) {
                                 console.log("Error. Response Data:" + angular.toJson(responseData, true));
                                 if (responseData.hasOwnProperty("msg")) {
-                                    MessageService.setMessage('error',
+                                    MessageService.setMessage('danger',
                                             responseData.msg, callOptions.failureMsgRetention);
                                 }
                                 else {
                                     if (callOptions.failureMesssage) {
-                                        MessageService.setMessage('error',
+                                        MessageService.setMessage('danger',
                                                 callOptions.failureMesssage, callOptions.failureMsgRetention);
                                     }
                                 }

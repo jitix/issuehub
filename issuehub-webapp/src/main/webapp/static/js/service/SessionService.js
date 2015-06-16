@@ -7,7 +7,6 @@ issuehubApp.service("SessionService",
                 this.userDetails = {};
 
                 this.setCurrentUser = function(userDetails) {
-                    //alert("Setting current user:" + angular.toJson(userDetails));
                     this.userDetails = angular.fromJson(angular.toJson(userDetails));
                     $rootScope.$broadcast('session-changed');
                 };
@@ -18,7 +17,6 @@ issuehubApp.service("SessionService",
                             {
                                 successCallback: function(responseData) {
                                     if (responseData) {
-                                        //alert("Response: " + angular.toJson(responseData, true));
                                         self.setCurrentUser(responseData);
                                     }
                                     if (successCallback) {
@@ -57,17 +55,16 @@ issuehubApp.service("SessionService",
 
                     this.updateCurrentUser(function(responseData) {
                         if (!responseData.userId) {
-                            MessageService.setMessage('error', errorMessage, 1);
+                            MessageService.setMessage('danger', errorMessage, 1);
                             $location.path(errorRedirect);
                         }
                     });
                 };
 
                 this.checkAdminUserSession = function(errorRedirect, errorMessage) {
-                    //alert("checking admin session. msg: "+errorMessage);
                     this.updateCurrentUser(function(responseData) {
                         if (!(responseData.userId && responseData.adminFlag)) {
-                            MessageService.setMessage('error', errorMessage, 1);
+                            MessageService.setMessage('danger', errorMessage, 1);
                             $location.path(errorRedirect);
                         }
                     });

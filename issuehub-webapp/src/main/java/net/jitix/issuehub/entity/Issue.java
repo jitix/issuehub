@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="users")
+@Document(collection = "issues")
 public class Issue {
 
     @Id
@@ -22,7 +22,7 @@ public class Issue {
 
     private String assigneeUserId;
 
-    private Integer statusId;
+    private String status;
 
     private String substatus;
 
@@ -33,7 +33,7 @@ public class Issue {
     public Issue() {
     }
 
-    public Issue(Integer issueId, String title, String description, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, Integer statusId, String substatus, Long updatedTimestamp, List<Comment> comments) {
+    public Issue(Integer issueId, String title, String description, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, Long updatedTimestamp, List<Comment> comments) {
         this.issueId = issueId;
         this.title = title;
         this.description = description;
@@ -41,7 +41,7 @@ public class Issue {
         this.reporterUserId = reporterUserId;
         this.reportedTimestamp = reportedTimestamp;
         this.assigneeUserId = assigneeUserId;
-        this.statusId = statusId;
+        this.status = status;
         this.substatus = substatus;
         this.updatedTimestamp = updatedTimestamp;
         this.comments = comments;
@@ -103,12 +103,12 @@ public class Issue {
         this.assigneeUserId = assigneeUserId;
     }
 
-    public Integer getStatusId() {
-        return statusId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getSubstatus() {
@@ -137,7 +137,7 @@ public class Issue {
 
     @Override
     public String toString() {
-        return "Issue{" + "issueId=" + issueId + ", title=" + title + ", description=" + description + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", statusId=" + statusId + ", substatus=" + substatus + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
+        return "Issue{" + "issueId=" + issueId + ", title=" + title + ", description=" + description + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
     }
 
 }

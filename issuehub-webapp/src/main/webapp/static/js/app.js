@@ -9,19 +9,5 @@ issuehubApp.run(
                 
                 SessionService.updateCurrentUser();
                 
-//                //get session from backend
-//                HttpService.call('api/session/', 'GET', {},
-//                        {
-//                            successCallback: function(responseData) {
-//                                alert(angular.toJson(responseData,true))
-//                                if (responseData) {
-//                                    SessionService.setCurrentUser(responseData);
-//                                    //$location.path("/");
-//                                }
-//                            },
-//                            failureCallback: function(responseData) {
-//
-//                            }
-//                        });
             }]
         )

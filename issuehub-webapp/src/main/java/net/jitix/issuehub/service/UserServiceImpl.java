@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,26 +47,37 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
     public void saveUser(String userId, UserSaveDetails userSaveDetails) throws AppException {
         boolean isUpdate = (userId != null);
 
-        User user = this.mappingUtil.map(userSaveDetails, User.class);
-
-        if (StringUtils.isNotBlank(userSaveDetails.getPassword())) {
-            user.setPasswordHash(DigestUtils.sha256Hex(userSaveDetails.getPassword()));
-        }
-
-        if (isUpdate) {
-            user.setUserId(userId);
-        } else {
-            //check if email already exists in case of new use creation
-            UserDetails existingUser = this.getUserByEmail(userSaveDetails.getEmail());
-            if (existingUser != null) {
-                //if its its new user details or email is registered with existing different user
-                if (StringUtils.isEmpty(userId) || !existingUser.getUserId().equals(userId)) {
-                    throw new AppException("Email address is already in use by different user");
-                }
+        //check if email already exists in case of new use creation
+        UserDetails existingUser = this.getUserByEmail(userSaveDetails.getEmail());
+        if (existingUser != null) {
+            //if its its new user details or email is registered with existing different user
+            if (StringUtils.isEmpty(userId) || !existingUser.getUserId().equals(userId)) {
+                throw new AppException("Email address is already in use by different user");
             }
         }
 
-        this.getMongoOperations().save(user);
+        if (isUpdate) {
+
+            Update update = new Update();
+            update.set("userName", userSaveDetails.getUserName());
+            update.set("email", userSaveDetails.getEmail());
+            update.set("adminFlag", userSaveDetails.getAdminFlag());
+
+            if (StringUtils.isNotBlank(userSaveDetails.getPassword())) {
+                update.set("passwordHash", DigestUtils.sha256Hex(userSaveDetails.getPassword()));
+            }
+
+            this.getMongoOperations().updateFirst(
+                    new Query(Criteria.where("_id").is(userId)), update, User.class);
+        } else {
+            User user = this.mappingUtil.map(userSaveDetails, User.class);
+            
+            if (StringUtils.isNotBlank(userSaveDetails.getPassword())) {
+                user.setPasswordHash(DigestUtils.sha256Hex(userSaveDetails.getPassword()));
+            }
+            
+            this.getMongoOperations().save(user);
+        }
     }
 
     @Override

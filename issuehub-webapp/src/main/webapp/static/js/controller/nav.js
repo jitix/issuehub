@@ -28,23 +28,4 @@ issuehubApp.controller('navController',
                                 failureMsgRetention: 0
                             });
                 };
-                
-//                this.loadSessionData = function() {
-//                    HttpService.call('api/session/', 'GET', {},
-//                            {
-//                                successCallback: function(responseData) {
-//                                    //alert("loaded session information");
-//                                    //alert(angular.toJson(responseData,true))
-//                                    if(responseData){
-//                                        SessionService.setCurrentUser(responseData);
-//                                        $location.path("/");
-//                                    }
-//                                },
-//                                failureCallback: function(responseData) {
-//
-//                                }
-//                            });
-//                };
-//                
-//                this.loadSessionData();
             }])

@@ -59,10 +59,13 @@
         </header>
 
         <div class="container msgbox" ng-controller="msgController">
-            <div class="alert alert-danger" role="alert" ng-show="(msgType === 'error')">{{msgText}}</div>
-            <div class="alert alert-info" role="alert" ng-show="(msgType === 'info')">{{msgText}}</div>
+            <div class="alert alert-{{msgType}}" role="alert" ng-show="(msgType !== null)">
+                {{msgText}}&nbsp;&nbsp;
+                <a href="javascript:void()" ng-click="close()">X</a>
+            </div>
+<!--            <div class="alert alert-info" role="alert" ng-show="(msgType === 'info')">{{msgText}}</div>
             <div class="alert alert-success" role="alert" ng-show="(msgType === 'success')">{{msgText}}</div>
-            <div class="alert alert-warning" role="alert" ng-show="(msgType === 'warn')">{{msgText}}</div>
+            <div class="alert alert-warning" role="alert" ng-show="(msgType === 'warning')">{{msgText}}</div>-->
         </div>
 
         <!-- MAIN CONTENT AND INJECTED VIEWS -->
