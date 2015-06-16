@@ -31,4 +31,9 @@ issuehubApp.config(function($routeProvider) {
                 templateUrl: viewPath + 'user/view.html',
                 controller: 'viewUserController'
             })
+            
+            .when('/users/:userId/delete', {
+                templateUrl: viewPath + 'user/delete.html',
+                controller: 'deleteUserController'
+            })
 });

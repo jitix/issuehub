@@ -96,7 +96,7 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
 
     @Override
     public void deleteUser(String userId) throws AppException {
-        this.getMongoOperations().remove(userId);
+        this.getMongoOperations().remove(new Query(Criteria.where("_id").is(userId)),User.class);
     }
 
     @Override

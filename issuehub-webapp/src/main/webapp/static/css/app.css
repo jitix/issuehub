@@ -12,6 +12,15 @@
     margin: 0 auto;
 }
 
+.dialog{
+    background: #f8f8f8;
+    max-width:500px;
+    margin: 0 auto;
+    border:#eaeaea solid 1px;
+    border-radius: 4px;
+    padding:10px;
+}
+
 .msgbox{
     max-width:500px;
     text-align: center;

@@ -17,7 +17,7 @@ issuehubApp.controller('loginController',
                                 failureCallback: function(responseData) {
                                     
                                 },
-                                successMsgRetention: 1,
+                                successMsgRetention: 0,
                                 failureMsgRetention: 0
                             });
                 };
