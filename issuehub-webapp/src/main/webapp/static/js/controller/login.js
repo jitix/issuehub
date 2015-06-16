@@ -1,29 +1,24 @@
-issuehubApp.controller('loginController', ['$scope', '$http', function($scope, $http) {
+issuehubApp.controller('loginController',
+        ['$scope', '$location', 'HttpService',
+            function($scope, $location, HttpService) {
 
-        this.postForm = function() {
+                $scope.authReq = {};
 
-            var encodedString = 'username=' +
-                    encodeURIComponent(this.inputData.username) +
-                    '&password=' +
-                    encodeURIComponent(this.inputData.password);
+                $scope.loginUser = function() {
 
-            $http({
-                method: 'POST',
-                url: 'check-login.php',
-                data: encodedString,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function(data, status, headers, config) {
-                        console.log(data);
-                        if (data.trim() === 'correct') {
-                            window.location.href = 'success.html';
-                        } else {
-                            $scope.errorMsg = "Login not correct";
-                        }
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.errorMsg = 'Unable to submit form';
-                    })
-        }
+                    HttpService.call('api/session/create', 'POST', $scope.authReq,
+                            {
+                                successMessage: 'Login successful',
+                                failureMessage: 'Login unsuccessful',
+                                successCallback: function(responseData) {
+                                    alert(angular.toJson(responseData, true));
+                                    $location.path('/');
+                                },
+                                failureCallback: function(responseData) {
+                                    alert(angular.toJson(responseData, true));
+                                },
+                                msgRetention: 1
+                            });
+                };
 
-    }])
+            }])

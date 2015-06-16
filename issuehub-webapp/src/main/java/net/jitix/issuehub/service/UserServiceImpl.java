@@ -34,6 +34,10 @@ public class UserServiceImpl extends AbstractMongoDBService implements UserServi
         User user = this.getMongoOperations().findOne(
                 new Query(Criteria.where("email").is(email)), User.class);
         String passwordHash = DigestUtils.sha256Hex(password);
+        
+        if(user==null){
+            throw new AppException("User does not exist");
+        }
 
         return user.getPasswordHash().equals(passwordHash);
     }

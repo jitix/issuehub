@@ -6,6 +6,12 @@
     max-width: 300px;
     margin: 0 auto;
 }
+
+.new-user-form{
+    max-width:500px;
+    margin: 0 auto;
+}
+
 #inputUsername {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;

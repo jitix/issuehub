@@ -1,13 +1,12 @@
 <div class="container">
-    <form class="login-form" ng-submit="postCtrl.postForm()">
-        <h2>Please sign in</h2>
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus ng-model="postCtrl.inputData.username">
+    <form class="login-form" ng-submit="loginUser()">
+        <h2>Login</h2>
+        <label for="inputUsername" class="sr-only">Email</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Email" required autofocus ng-model="authReq.email">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="postCtrl.inputData.password">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="authReq.password">
         <br>
-        <div class="alert alert-danger" role="alert" ng-show="errorMsg">{{errorMsg}}</div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-sm btn-primary btn-block" type="submit">Login</button>
 
     </form>
 </div> 
