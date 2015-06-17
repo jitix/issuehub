@@ -11,6 +11,7 @@ import net.jitix.issuehub.util.ControllerUtil;
 import net.jitix.issuehub.vo.IssueInfo;
 import net.jitix.issuehub.vo.IssueUpdationDetails;
 import net.jitix.issuehub.vo.NewIssueDetails;
+import net.jitix.issuehub.vo.UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,9 @@ public class IssueController {
             throws AuthorizationException, Exception {
         ControllerUtil.checkValidSession(request.getSession());
 
-        Integer issueNumber = this.issueService.createNewIssue(newIssueDetails);
+        UserDetails userDetails = ControllerUtil.getSessionUserDetails(request.getSession());
+
+        Integer issueNumber = this.issueService.createNewIssue(userDetails, newIssueDetails);
 
         Issue issueDetails = this.issueService.getIssue(issueNumber);
 
@@ -61,7 +64,10 @@ public class IssueController {
 
         ControllerUtil.checkValidSession(request.getSession());
 
-        this.issueService.updateIssue(issueNumber, issueUpdDetails.getSaveIssueDetails(), issueUpdDetails.getCommentDetails());
+        UserDetails userDetails = ControllerUtil.getSessionUserDetails(request.getSession());
+
+        this.issueService.updateIssue(issueNumber, userDetails, 
+                issueUpdDetails.getSaveIssueDetails(), issueUpdDetails.getCommentDetails());
     }
 
     @RequestMapping(value = "/{issueNumber}", method = RequestMethod.DELETE)

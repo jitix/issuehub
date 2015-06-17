@@ -1,15 +1,12 @@
 package net.jitix.issuehub.vo;
 
-import java.util.List;
-import net.jitix.issuehub.entity.Comment;
-
 public class IssueInfo {
-    
+
     private Integer issueNumber;
 
     private String title;
 
-    private String issueType;
+    private Integer issueTypeId;
 
     private String reporterUserId;
 
@@ -21,20 +18,23 @@ public class IssueInfo {
 
     private String substatus;
 
+    private String updatedByUserId;
+
     private Long updatedTimestamp;
 
     public IssueInfo() {
     }
 
-    public IssueInfo(Integer issueNumber, String title, String issueType, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, Long updatedTimestamp) {
+    public IssueInfo(Integer issueNumber, String title, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, String updatedByUserId, Long updatedTimestamp) {
         this.issueNumber = issueNumber;
         this.title = title;
-        this.issueType = issueType;
+        this.issueTypeId = issueTypeId;
         this.reporterUserId = reporterUserId;
         this.reportedTimestamp = reportedTimestamp;
         this.assigneeUserId = assigneeUserId;
         this.status = status;
         this.substatus = substatus;
+        this.updatedByUserId = updatedByUserId;
         this.updatedTimestamp = updatedTimestamp;
     }
 
@@ -54,12 +54,12 @@ public class IssueInfo {
         this.title = title;
     }
 
-    public String getIssueType() {
-        return issueType;
+    public Integer getIssueTypeId() {
+        return issueTypeId;
     }
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
+    public void setIssueTypeId(Integer issueTypeId) {
+        this.issueTypeId = issueTypeId;
     }
 
     public String getReporterUserId() {
@@ -102,6 +102,14 @@ public class IssueInfo {
         this.substatus = substatus;
     }
 
+    public String getUpdatedByUserId() {
+        return updatedByUserId;
+    }
+
+    public void setUpdatedByUserId(String updatedByUserId) {
+        this.updatedByUserId = updatedByUserId;
+    }
+
     public Long getUpdatedTimestamp() {
         return updatedTimestamp;
     }
@@ -112,7 +120,7 @@ public class IssueInfo {
 
     @Override
     public String toString() {
-        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueType=" + issueType + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedTimestamp=" + updatedTimestamp + '}';
+        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + '}';
     }
 
 }

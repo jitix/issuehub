@@ -11,6 +11,7 @@ import net.jitix.issuehub.vo.CommentDetails;
 import net.jitix.issuehub.vo.IssueInfo;
 import net.jitix.issuehub.vo.NewIssueDetails;
 import net.jitix.issuehub.vo.SaveIssueDetails;
+import net.jitix.issuehub.vo.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -43,7 +44,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
     }
 
     @Override
-    public Integer createNewIssue(NewIssueDetails issueDetails) throws AppException {
+    public Integer createNewIssue(UserDetails reporterDetails, NewIssueDetails issueDetails) throws AppException {
         long timestamp = System.currentTimeMillis();
 
         IssueType issueType = this.issueTypeService.getIssueType(issueDetails.getIssueTypeId());
@@ -51,7 +52,9 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
         Issue issue = this.mappingUtil.map(issueDetails, Issue.class);
 
         issue.setIssueNumber(this.getNewIssueNumber());
+        issue.setReporterUserId(reporterDetails.getUserId());
         issue.setReportedTimestamp(timestamp);
+        issue.setUpdatedByUserId(reporterDetails.getUserId());
         issue.setUpdatedTimestamp(timestamp);
         issue.setStatus(issueType.getStatusList().get(0).getStatus());
         issue.setSubstatus(issueType.getStatusList().get(0).getSubstatusList().get(0));
@@ -75,8 +78,10 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
     }
 
     @Override
-    public void updateIssue(Integer issueNumber, SaveIssueDetails issueDetails, CommentDetails commentDetails) throws AppException {
+    public void updateIssue(Integer issueNumber, UserDetails updaterDetails, SaveIssueDetails issueDetails, CommentDetails commentDetails) throws AppException {
 
+        long timestamp=System.currentTimeMillis();
+        
         if (issueDetails != null) {
             this.getMongoOperations().updateFirst(
                     new Query().addCriteria(Criteria.where("_id").is(issueNumber)),
@@ -85,13 +90,15 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
                     .set("description", issueDetails.getDescription())
                     .set("assigneeUserId", issueDetails.getAssigneeUserId())
                     .set("status", issueDetails.getStatus())
-                    .set("substatus", issueDetails.getSubstatus()),
+                    .set("substatus", issueDetails.getSubstatus())
+                    .set("updatedByUserId",updaterDetails.getUserId())
+                    .set("updatedTimestamp", timestamp),
                     Issue.class);
         }
 
         if (commentDetails != null) {
             Comment comment = this.mappingUtil.map(commentDetails, Comment.class);
-            comment.setTimestamp(System.currentTimeMillis());
+            comment.setTimestamp(timestamp);
 
             this.getMongoOperations().updateFirst(
                     new Query().addCriteria(Criteria.where("_id").is(issueNumber)),

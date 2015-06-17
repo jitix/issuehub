@@ -49,6 +49,17 @@ public class ControllerUtil {
         }
     }
 
+    public static UserDetails getSessionUserDetails(HttpSession session)
+            throws AuthorizationException {
+        if (Constants.SESSION_CHECK && !(session.getAttribute(Constants.USER_SESSION_ATTR_KEY) != null
+                && session.getAttribute(Constants.USER_SESSION_ATTR_KEY) instanceof UserDetails)) {
+            throw new AuthorizationException();
+        } else {
+            return (UserDetails) session
+                    .getAttribute(Constants.USER_SESSION_ATTR_KEY);
+        }
+    }
+
     public static void putExceptionToResponse(HttpServletResponse response, HttpStatus status, Exception ex) {
 
         try {

@@ -36,4 +36,24 @@ issuehubApp.config(function($routeProvider) {
                 templateUrl: viewPath + 'user/delete.html',
                 controller: 'deleteUserController'
             })
+            
+            .when('/issues', {
+                templateUrl: viewPath + 'issue/list.html',
+                controller: 'listIssueController'
+            })
+
+            .when('/issues/create', {
+                templateUrl: viewPath + 'issue/create.html',
+                controller: 'createIssueController'
+            })
+
+            .when('/issues/:issueNumber', {
+                templateUrl: viewPath + 'issue/view.html',
+                controller: 'viewIssueController'
+            })
+            
+            .when('/issues/:issueNumber/delete', {
+                templateUrl: viewPath + 'issue/delete.html',
+                controller: 'deleteIssueController'
+            })
 });
