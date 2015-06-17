@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Issue {
 
     @Id
-    private Integer issueId;
+    private Integer issueNumber;
 
     private String title;
 
@@ -33,8 +33,8 @@ public class Issue {
     public Issue() {
     }
 
-    public Issue(Integer issueId, String title, String description, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, Long updatedTimestamp, List<Comment> comments) {
-        this.issueId = issueId;
+    public Issue(Integer issueNumber, String title, String description, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, Long updatedTimestamp, List<Comment> comments) {
+        this.issueNumber = issueNumber;
         this.title = title;
         this.description = description;
         this.issueTypeId = issueTypeId;
@@ -47,12 +47,12 @@ public class Issue {
         this.comments = comments;
     }
 
-    public Integer getIssueId() {
-        return issueId;
+    public Integer getIssueNumber() {
+        return issueNumber;
     }
 
-    public void setIssueId(Integer issueId) {
-        this.issueId = issueId;
+    public void setIssueNumber(Integer issueNumber) {
+        this.issueNumber = issueNumber;
     }
 
     public String getTitle() {
@@ -137,7 +137,7 @@ public class Issue {
 
     @Override
     public String toString() {
-        return "Issue{" + "issueId=" + issueId + ", title=" + title + ", description=" + description + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
+        return "Issue{" + "issueNumber=" + issueNumber + ", title=" + title + ", description=" + description + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
     }
 
 }

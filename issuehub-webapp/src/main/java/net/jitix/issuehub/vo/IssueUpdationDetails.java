@@ -1,19 +1,17 @@
 package net.jitix.issuehub.vo;
 
-import java.util.List;
-
 public class IssueUpdationDetails {
 
     private SaveIssueDetails saveIssueDetails;
 
-    private List<CommentDetails> commentsList;
+    private CommentDetails commentDetails;
 
     public IssueUpdationDetails() {
     }
 
-    public IssueUpdationDetails(SaveIssueDetails saveIssueDetails, List<CommentDetails> commentsList) {
+    public IssueUpdationDetails(SaveIssueDetails saveIssueDetails, CommentDetails commentDetails) {
         this.saveIssueDetails = saveIssueDetails;
-        this.commentsList = commentsList;
+        this.commentDetails = commentDetails;
     }
 
     public SaveIssueDetails getSaveIssueDetails() {
@@ -24,17 +22,16 @@ public class IssueUpdationDetails {
         this.saveIssueDetails = saveIssueDetails;
     }
 
-    public List<CommentDetails> getCommentsList() {
-        return commentsList;
+    public CommentDetails getCommentDetails() {
+        return commentDetails;
     }
 
-    public void setCommentsList(List<CommentDetails> commentsList) {
-        this.commentsList = commentsList;
+    public void setCommentDetails(CommentDetails commentDetails) {
+        this.commentDetails = commentDetails;
     }
 
     @Override
     public String toString() {
-        return "IssueUpdationDetails{" + "saveIssueDetails=" + saveIssueDetails + ", commentsList=" + commentsList + '}';
+        return "IssueUpdationDetails{" + "saveIssueDetails=" + saveIssueDetails + ", commentDetails=" + commentDetails + '}';
     }
-
 }

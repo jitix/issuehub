@@ -1,47 +1,111 @@
 package net.jitix.issuehub.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import net.jitix.issuehub.entity.Comment;
+import net.jitix.issuehub.entity.Issue;
+import net.jitix.issuehub.entity.IssueType;
 import net.jitix.issuehub.exception.AppException;
+import net.jitix.issuehub.util.ObjectMappingUtil;
 import net.jitix.issuehub.vo.CommentDetails;
-import net.jitix.issuehub.vo.IssueDetails;
 import net.jitix.issuehub.vo.IssueInfo;
 import net.jitix.issuehub.vo.NewIssueDetails;
 import net.jitix.issuehub.vo.SaveIssueDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IssueServiceImpl extends AbstractMongoDBService implements IssueService{
+public class IssueServiceImpl extends AbstractMongoDBService implements IssueService {
+
+    @Autowired
+    private IssueTypeService issueTypeService;
+
+    @Autowired
+    private ObjectMappingUtil mappingUtil;
 
     @Override
-    public Integer getNewIssueNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public synchronized Integer getNewIssueNumber() {
+
+        Query query = new Query();
+        query.limit(11);
+        query.with(new Sort(Sort.Direction.DESC, "_id"));
+
+        Issue latest = this.getMongoOperations().findOne(query, Issue.class);
+        if (latest == null) {
+            return 1;
+        } else {
+            return latest.getIssueNumber() + 1;
+        }
     }
 
     @Override
     public Integer createNewIssue(NewIssueDetails issueDetails) throws AppException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        long timestamp = System.currentTimeMillis();
+
+        IssueType issueType = this.issueTypeService.getIssueType(issueDetails.getIssueTypeId());
+
+        Issue issue = this.mappingUtil.map(issueDetails, Issue.class);
+
+        issue.setIssueNumber(this.getNewIssueNumber());
+        issue.setReportedTimestamp(timestamp);
+        issue.setUpdatedTimestamp(timestamp);
+        issue.setStatus(issueType.getStatusList().get(0).getStatus());
+        issue.setSubstatus(issueType.getStatusList().get(0).getSubstatusList().get(0));
+        issue.setComments(new ArrayList<>(0));
+
+        this.getMongoOperations().save(issue);
+
+        return issue.getIssueNumber();
     }
 
     @Override
-    public IssueDetails getIssue(Integer issueNumber) throws AppException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Issue getIssue(Integer issueNumber) throws AppException {
+        return this.getMongoOperations().findById(issueNumber, Issue.class);
     }
 
     @Override
     public List<IssueInfo> listIssues() throws AppException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.mappingUtil.mapList(
+                this.getMongoOperations().findAll(Issue.class),
+                IssueInfo.class);
     }
 
     @Override
-    public void updateIssue(Integer issueNumber, SaveIssueDetails issueDetails, List<CommentDetails> comments) throws AppException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateIssue(Integer issueNumber, SaveIssueDetails issueDetails, CommentDetails commentDetails) throws AppException {
+
+        if (issueDetails != null) {
+            this.getMongoOperations().updateFirst(
+                    new Query().addCriteria(Criteria.where("_id").is(issueNumber)),
+                    new Update()
+                    .set("title", issueDetails.getTitle())
+                    .set("description", issueDetails.getDescription())
+                    .set("assigneeUserId", issueDetails.getAssigneeUserId())
+                    .set("status", issueDetails.getStatus())
+                    .set("substatus", issueDetails.getSubstatus()),
+                    Issue.class);
+        }
+
+        if (commentDetails != null) {
+            Comment comment = this.mappingUtil.map(commentDetails, Comment.class);
+            comment.setTimestamp(System.currentTimeMillis());
+
+            this.getMongoOperations().updateFirst(
+                    new Query().addCriteria(Criteria.where("_id").is(issueNumber)),
+                    new Update().push("comments", comment),
+                    Issue.class);
+        }
+
     }
 
     @Override
     public void deleteIssue(Integer issueNumber) throws AppException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getMongoOperations().remove(
+                new Query().addCriteria(Criteria.where("_id").is(issueNumber)), 
+                Issue.class);
     }
-    
-    
-    
+
 }

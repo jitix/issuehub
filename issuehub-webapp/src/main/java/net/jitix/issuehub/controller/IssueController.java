@@ -4,10 +4,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.jitix.issuehub.controller.exception.AuthorizationException;
+import net.jitix.issuehub.entity.Issue;
 import net.jitix.issuehub.exception.AppException;
 import net.jitix.issuehub.service.IssueService;
 import net.jitix.issuehub.util.ControllerUtil;
-import net.jitix.issuehub.vo.IssueDetails;
 import net.jitix.issuehub.vo.IssueInfo;
 import net.jitix.issuehub.vo.IssueUpdationDetails;
 import net.jitix.issuehub.vo.NewIssueDetails;
@@ -32,14 +32,14 @@ public class IssueController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public IssueDetails createIssue(@RequestBody NewIssueDetails newIssueDetails,
+    public Issue createIssue(@RequestBody NewIssueDetails newIssueDetails,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, Exception {
         ControllerUtil.checkValidSession(request.getSession());
 
         Integer issueNumber = this.issueService.createNewIssue(newIssueDetails);
 
-        IssueDetails issueDetails = this.issueService.getIssue(issueNumber);
+        Issue issueDetails = this.issueService.getIssue(issueNumber);
 
         return issueDetails;
     }
@@ -61,7 +61,7 @@ public class IssueController {
 
         ControllerUtil.checkValidSession(request.getSession());
 
-        this.issueService.updateIssue(issueNumber, issueUpdDetails.getSaveIssueDetails(), issueUpdDetails.getCommentsList());
+        this.issueService.updateIssue(issueNumber, issueUpdDetails.getSaveIssueDetails(), issueUpdDetails.getCommentDetails());
     }
 
     @RequestMapping(value = "/{issueNumber}", method = RequestMethod.DELETE)
@@ -75,7 +75,7 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/{issueNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public IssueDetails getUserDetails(@PathVariable Integer issueNumber,
+    public Issue getUserDetails(@PathVariable Integer issueNumber,
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, AppException {
 
