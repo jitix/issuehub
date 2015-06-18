@@ -20,8 +20,11 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IssueServiceImpl extends AbstractMongoDBService implements IssueService {
+public class IssueServiceImpl implements IssueService {
 
+    @Autowired
+    private MongoDBConnectionService connService;
+    
     @Autowired
     private IssueTypeService issueTypeService;
 
@@ -35,7 +38,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
         query.limit(11);
         query.with(new Sort(Sort.Direction.DESC, "_id"));
 
-        Issue latest = this.getMongoOperations().findOne(query, Issue.class);
+        Issue latest = this.connService.getMongoOperations().findOne(query, Issue.class);
         if (latest == null) {
             return 1;
         } else {
@@ -47,7 +50,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
     public Integer createNewIssue(UserDetails reporterDetails, NewIssueDetails issueDetails) throws AppException {
         long timestamp = System.currentTimeMillis();
 
-        IssueType issueType = this.issueTypeService.getIssueType(issueDetails.getIssueTypeId());
+        IssueType issueType = this.issueTypeService.getIssueTypeByName(issueDetails.getIssueTypeName());
 
         Issue issue = this.mappingUtil.map(issueDetails, Issue.class);
 
@@ -60,20 +63,20 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
         issue.setSubstatus(issueType.getStatusList().get(0).getSubstatusList().get(0));
         issue.setComments(new ArrayList<>(0));
 
-        this.getMongoOperations().save(issue);
+        this.connService.getMongoOperations().save(issue);
 
         return issue.getIssueNumber();
     }
 
     @Override
     public Issue getIssue(Integer issueNumber) throws AppException {
-        return this.getMongoOperations().findById(issueNumber, Issue.class);
+        return this.connService.getMongoOperations().findById(issueNumber, Issue.class);
     }
 
     @Override
     public List<IssueInfo> listIssues() throws AppException {
         return this.mappingUtil.mapList(
-                this.getMongoOperations().findAll(Issue.class),
+                this.connService.getMongoOperations().findAll(Issue.class),
                 IssueInfo.class);
     }
 
@@ -83,7 +86,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
         long timestamp=System.currentTimeMillis();
         
         if (issueDetails != null) {
-            this.getMongoOperations().updateFirst(
+            this.connService.getMongoOperations().updateFirst(
                     new Query().addCriteria(Criteria.where("_id").is(issueNumber)),
                     new Update()
                     .set("title", issueDetails.getTitle())
@@ -100,7 +103,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
             Comment comment = this.mappingUtil.map(commentDetails, Comment.class);
             comment.setTimestamp(timestamp);
 
-            this.getMongoOperations().updateFirst(
+            this.connService.getMongoOperations().updateFirst(
                     new Query().addCriteria(Criteria.where("_id").is(issueNumber)),
                     new Update().push("comments", comment),
                     Issue.class);
@@ -110,7 +113,7 @@ public class IssueServiceImpl extends AbstractMongoDBService implements IssueSer
 
     @Override
     public void deleteIssue(Integer issueNumber) throws AppException {
-        this.getMongoOperations().remove(
+        this.connService.getMongoOperations().remove(
                 new Query().addCriteria(Criteria.where("_id").is(issueNumber)), 
                 Issue.class);
     }

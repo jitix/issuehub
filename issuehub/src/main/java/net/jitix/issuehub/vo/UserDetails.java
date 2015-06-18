@@ -1,6 +1,8 @@
 package net.jitix.issuehub.vo;
 
-public class UserDetails {
+import java.io.Serializable;
+
+public class UserDetails{
 
     private String userId;
 

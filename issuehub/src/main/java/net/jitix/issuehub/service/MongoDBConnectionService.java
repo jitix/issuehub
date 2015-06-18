@@ -6,8 +6,10 @@ import net.jitix.issuehub.util.DBBootstrapUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.stereotype.Service;
 
-public abstract class AbstractMongoDBService {
+@Service
+public class MongoDBConnectionService {
     
     private MongoOperations mongoOperations;
 
@@ -20,7 +22,7 @@ public abstract class AbstractMongoDBService {
         DBBootstrapUtil.bootstrapDB(this.mongoOperations);
     }
     
-    protected MongoOperations getMongoOperations(){
+    public MongoOperations getMongoOperations(){
         return this.mongoOperations;
     }
     

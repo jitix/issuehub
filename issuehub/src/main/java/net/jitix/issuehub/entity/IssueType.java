@@ -10,16 +10,16 @@ public class IssueType {
     @Id
     private String issueTypeId;
 
-    private String issueType;
+    private String issueTypeName;
 
     private List<Status> statusList;
 
     public IssueType() {
     }
 
-    public IssueType(String issueTypeId, String issueType, List<Status> statusList) {
+    public IssueType(String issueTypeId, String issueTypeName, List<Status> statusList) {
         this.issueTypeId = issueTypeId;
-        this.issueType = issueType;
+        this.issueTypeName = issueTypeName;
         this.statusList = statusList;
     }
 
@@ -31,12 +31,12 @@ public class IssueType {
         this.issueTypeId = issueTypeId;
     }
 
-    public String getIssueType() {
-        return issueType;
+    public String getIssueTypeName() {
+        return issueTypeName;
     }
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
+    public void setIssueTypeName(String issueTypeName) {
+        this.issueTypeName = issueTypeName;
     }
 
     public List<Status> getStatusList() {
@@ -49,7 +49,7 @@ public class IssueType {
 
     @Override
     public String toString() {
-        return "IssueType{" + "issueTypeId=" + issueTypeId + ", issueType=" + issueType + ", statusList=" + statusList + '}';
+        return "IssueType{" + "issueTypeId=" + issueTypeId + ", issueTypeName=" + issueTypeName + ", statusList=" + statusList + '}';
     }
 
 }

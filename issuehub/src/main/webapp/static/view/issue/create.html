@@ -1,21 +1,32 @@
 <div class="container">
-    <form class="user-form" ng-submit="createIssue()">
-        <h2>Create new user</h2>
-        <label for="inputTitle" class="sr-only">Title</label>
-        <input type="text" class="form-control" placeholder="Title" required autofocus ng-model="issueDetails.title">
+    <form class="issue-form form-horizontal" ng-submit="createIssue()">
+        <h2>New Issue</h2>
+        <input type="text" class="form-control" placeholder="Title" required autofocus ng-model="newIssueDetails.title">
         <br>
-        Description
+        <!--        <label for="description" class="control-label">Description</label>-->
+        <textarea class="form-control" placeholder="Add a description for the issue" required autofocus ng-model="newIssueDetails.description">
+        </textarea>
         <br>
-        <label for="inputDescription" class="sr-only">Description</label>
-        <input type="text" class="form-control" placeholder="Email" required autofocus ng-model="userDetails.email">
-        <br>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="userDetails.password">
-        <br>
-        <label for="inputAdminFlag" class="sr-only">Admin</label>
-        <input type="checkbox" id="inputAdminFlag" class="" ng-model="userDetails.adminFlag"> Admin User
 
-        <br><br>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="formGroupInputSmall">Issue Type</label>
+            <div class="col-sm-10">
+                <select ng-model="newIssueDetails.issueTypeId" class="form-control">
+                    <option ng-repeat="issueType in issueTypes">{{issueType.issueTypeName}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="formGroupInputSmall">Assignee</label>
+            <div class="col-sm-10">
+                <select ng-model="newIssueDetails.assigneeUserId" class="form-control">
+                    <option ng-repeat="user in users">{{issueType.issueTypeName}}</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
         <button class="btn btn-sm btn-primary" type="submit">Create</button>
 
     </form>

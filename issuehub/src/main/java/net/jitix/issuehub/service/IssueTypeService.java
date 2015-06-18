@@ -8,6 +8,8 @@ public interface IssueTypeService {
 
     public IssueType getIssueType(String issueTypeId) throws AppException;
     
+    public IssueType getIssueTypeByName(String issueTypeName) throws AppException;
+    
     public List<IssueType> getIssueTypes() throws AppException;
     
 }

@@ -7,11 +7,11 @@ issuehubApp.service("IssueTypeService",
                 this.issueTypes = [];
 
                 this.setIssueTypes = function(issueTypes) {
-                    alert(angular.toJson(issueTypes,true));
+                    //alert(angular.toJson(issueTypes,true));
                     this.issueTypes = angular.fromJson(angular.toJson(issueTypes));
                 };
 
-                this.updateIssueTypes = function(successCallback) {
+                this.fetchIssueTypes = function(successCallback) {
                     //get session from backend
                     HttpService.call('api/issuetypes/', 'GET', {},
                             {
@@ -39,6 +39,6 @@ issuehubApp.service("IssueTypeService",
                     }
                 };
 
-                this.updateIssueTypes();
+                this.fetchIssueTypes();
 
             }])
