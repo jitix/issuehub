@@ -60,6 +60,16 @@ issuehubApp.service("SessionService",
                         }
                     });
                 };
+                
+                this.checkUserSessionForDashboard = function(errorRedirect, errorMessage) {
+
+                    this.updateCurrentUser(function(responseData) {
+                        if (!responseData.userId) {
+                            MessageService.setMessage('info', errorMessage, 1);
+                            $location.path(errorRedirect);
+                        }
+                    });
+                };
 
                 this.checkAdminUserSession = function(errorRedirect, errorMessage) {
                     this.updateCurrentUser(function(responseData) {

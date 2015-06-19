@@ -45,7 +45,7 @@ public class IssueServiceImpl implements IssueService {
 
         Issue latest = this.connService.getMongoOperations().findOne(query, Issue.class);
         if (latest == null) {
-            return 1;
+            return 1000;
         } else {
             return latest.getIssueNumber() + 1;
         }
