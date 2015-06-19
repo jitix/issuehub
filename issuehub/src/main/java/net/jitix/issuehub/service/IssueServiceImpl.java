@@ -40,7 +40,7 @@ public class IssueServiceImpl implements IssueService {
     public synchronized Integer getNewIssueNumber() {
 
         Query query = new Query();
-        query.limit(11);
+        query.limit(1);
         query.with(new Sort(Sort.Direction.DESC, "_id"));
 
         Issue latest = this.connService.getMongoOperations().findOne(query, Issue.class);
