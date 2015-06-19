@@ -25,13 +25,15 @@ public class IssueInfo {
     private String substatus;
 
     private String updatedByUserId;
+    
+    private String updatedByUserName;
 
     private Long updatedTimestamp;
 
     public IssueInfo() {
     }
 
-    public IssueInfo(Integer issueNumber, String title, String issueTypeName, String priority, String reporterUserId, String reporterUserName, Long reportedTimestamp, String assigneeUserId, String assigneeUserName, String status, String substatus, String updatedByUserId, Long updatedTimestamp) {
+    public IssueInfo(Integer issueNumber, String title, String issueTypeName, String priority, String reporterUserId, String reporterUserName, Long reportedTimestamp, String assigneeUserId, String assigneeUserName, String status, String substatus, String updatedByUserId, String updatedByUserName, Long updatedTimestamp) {
         this.issueNumber = issueNumber;
         this.title = title;
         this.issueTypeName = issueTypeName;
@@ -44,6 +46,7 @@ public class IssueInfo {
         this.status = status;
         this.substatus = substatus;
         this.updatedByUserId = updatedByUserId;
+        this.updatedByUserName = updatedByUserName;
         this.updatedTimestamp = updatedTimestamp;
     }
 
@@ -143,6 +146,14 @@ public class IssueInfo {
         this.updatedByUserId = updatedByUserId;
     }
 
+    public String getUpdatedByUserName() {
+        return updatedByUserName;
+    }
+
+    public void setUpdatedByUserName(String updatedByUserName) {
+        this.updatedByUserName = updatedByUserName;
+    }
+
     public Long getUpdatedTimestamp() {
         return updatedTimestamp;
     }
@@ -153,7 +164,7 @@ public class IssueInfo {
 
     @Override
     public String toString() {
-        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueTypeName=" + issueTypeName + ", priority=" + priority + ", reporterUserId=" + reporterUserId + ", reporterUserName=" + reporterUserName + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", assigneeUserName=" + assigneeUserName + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + '}';
+        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueTypeName=" + issueTypeName + ", priority=" + priority + ", reporterUserId=" + reporterUserId + ", reporterUserName=" + reporterUserName + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", assigneeUserName=" + assigneeUserName + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedByUserName=" + updatedByUserName + ", updatedTimestamp=" + updatedTimestamp + '}';
     }
 
 }

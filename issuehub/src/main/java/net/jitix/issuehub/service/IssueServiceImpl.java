@@ -115,6 +115,7 @@ public class IssueServiceImpl implements IssueService {
         for(IssueInfo issueInfo:issueInfoList){
             issueInfo.setReporterUserName(this.userService.getUser(issueInfo.getReporterUserId()).getUserName());
             issueInfo.setAssigneeUserName(this.userService.getUser(issueInfo.getAssigneeUserId()).getUserName());
+            issueInfo.setUpdatedByUserName(this.userService.getUser(issueInfo.getUpdatedByUserId()).getUserName());
         }
         
         return issueInfoList;
