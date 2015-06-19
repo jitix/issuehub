@@ -8,8 +8,8 @@ issuehubApp.controller('viewIssueController',
                 var self = this;
 
                 $scope.issueDetails = {};
-                
-                $scope.newComment="";
+
+                $scope.newComment = "";
 
                 $scope.reporterUserName = null;
                 $scope.updatedByUserName = null;
@@ -54,32 +54,32 @@ issuehubApp.controller('viewIssueController',
                                     failureMsgRetention: 0
                                 });
                     }
-                    
-                    if(issueDetails.comments){
-                        for(var i in issueDetails.comments){
-                            var comment=issueDetails.comments[i];
-                            
-                            //alert(angular.toJson(comment,true));
-                            
-                            HttpService.call('api/users/' + comment.userId, 'GET', {},
-                                {
-                                    failureMessage: 'Error fetching user details',
-                                    successCallback: function(responseData) {
-                                        if (responseData) {
-                                            if(responseData.userName){
-                                                comment.userName=responseData.userName;
-                                            }
-                                            else{
-                                                comment.userName="Unknown User";
-                                            }
-                                        }
-                                    },
-                                    failureCallback: function(responseData) {
 
-                                    },
-                                    failureMsgRetention: 0
-                                });
-                            
+                    if (issueDetails.comments) {
+                        for (var i in issueDetails.comments) {
+                            var comment = issueDetails.comments[i];
+
+                            //alert(angular.toJson(comment,true));
+
+                            HttpService.call('api/users/' + comment.userId, 'GET', {},
+                                    {
+                                        failureMessage: 'Error fetching user details',
+                                        successCallback: function(responseData) {
+                                            if (responseData) {
+                                                if (responseData.userName) {
+                                                    comment.userName = responseData.userName;
+                                                }
+                                                else {
+                                                    comment.userName = "Unknown User";
+                                                }
+                                            }
+                                        },
+                                        failureCallback: function(responseData) {
+
+                                        },
+                                        failureMsgRetention: 0
+                                    });
+
                         }
                     }
 
@@ -97,6 +97,12 @@ issuehubApp.controller('viewIssueController',
                             if (issueType.issueTypeName === issueDetails.issueTypeName) {
                                 $scope.statusList = issueType.statusList;
 
+                                for (var i in issueType.statusList) {
+                                    var status = issueType.statusList[i];
+                                    if (status.status === $scope.issueDetails.status) {
+                                        $scope.substatusList = status.substatusList;
+                                    }
+                                }
                             }
                         }
                     });
@@ -106,7 +112,23 @@ issuehubApp.controller('viewIssueController',
                     return scope.issueDetails.status;
                 },
                         function(newValue, oldValue) {
-                            //alert(newValue, oldValue);
+                            //alert(newValue);
+                            for (var i in $scope.issueTypes) {
+                                var issueType = $scope.issueTypes[i];
+                                //alert(angular.toJson(issueType,true)+" ~ "+issueDetails.issueTypeName);
+                                if (issueType.issueTypeName === $scope.issueDetails.issueTypeName) {
+                                    $scope.statusList = issueType.statusList;
+
+                                    //alert(angular.toJson(issueType, true));
+
+                                    for (var i in issueType.statusList) {
+                                        var status = issueType.statusList[i];
+                                        if (status.status === $scope.issueDetails.status) {
+                                            $scope.substatusList = status.substatusList;
+                                        }
+                                    }
+                                }
+                            }
                         }
                 );
 
@@ -130,16 +152,16 @@ issuehubApp.controller('viewIssueController',
                 $scope.saveIssue = function() {
                     HttpService.call('api/issues/' + $routeParams.issueNumber, 'PUT', {
                         saveIssueDetails: {
-                            title:$scope.issueDetails.title,
-                            description:$scope.issueDetails.description,
-                            priority:$scope.issueDetails.priority,
-                            assigneeUserId:$scope.issueDetails.assigneeUserId,
-                            status:$scope.issueDetails.status,
-                            substatus:$scope.issueDetails.substatus
+                            title: $scope.issueDetails.title,
+                            description: $scope.issueDetails.description,
+                            priority: $scope.issueDetails.priority,
+                            assigneeUserId: $scope.issueDetails.assigneeUserId,
+                            status: $scope.issueDetails.status,
+                            substatus: $scope.issueDetails.substatus
                         },
-                        commentDetails:{
-                            userId:null,
-                            comment:$scope.newComment
+                        commentDetails: {
+                            userId: null,
+                            comment: $scope.newComment
                         }
                     },
                     {

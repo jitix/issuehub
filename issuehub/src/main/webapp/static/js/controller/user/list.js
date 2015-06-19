@@ -2,8 +2,8 @@ issuehubApp.controller('listUserController',
         ['$scope', '$location', 'HttpService', 'SessionService',
             function($scope, $location, HttpService, SessionService) {
 
-                SessionService.checkAdminUserSession(
-                        '/', 'You need to be an admin user to view user list');
+                SessionService.checkUserSession(
+                        '/', 'You need to be logged in to view user list');
 
                 $scope.userList = [];
 

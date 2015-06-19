@@ -45,7 +45,7 @@ public class UserController {
     public List<UserDetails> listUsers(
             HttpServletRequest request, HttpServletResponse response)
             throws AuthorizationException, PermissionException, AppException {
-        ControllerUtil.checkAdminSession(request.getSession());
+        ControllerUtil.checkValidSession(request.getSession());
 
         return this.userService.listUsers();
     }
