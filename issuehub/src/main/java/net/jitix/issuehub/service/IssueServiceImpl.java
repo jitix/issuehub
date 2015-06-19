@@ -141,6 +141,7 @@ public class IssueServiceImpl implements IssueService {
 
         if (commentDetails != null) {
             Comment comment = this.mappingUtil.map(commentDetails, Comment.class);
+            comment.setUserId(updaterDetails.getUserId());
             comment.setTimestamp(timestamp);
 
             this.connService.getMongoOperations().updateFirst(

@@ -12,7 +12,7 @@ issuehubApp.controller('loginController',
                                 failureMessage: 'Login unsuccessful',
                                 successCallback: function(responseData) {
                                     SessionService.setCurrentUser(responseData);
-                                    $location.path('/');
+                                    $location.path('/issues/');
                                 },
                                 failureCallback: function(responseData) {
                                     

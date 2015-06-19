@@ -50,3 +50,24 @@
 .info-label{
     color: #23527c;
 }
+
+.comment{
+    margin:2px;
+    background: #f8f8f8;
+    border: #eaeaea 1px solid;
+    max-width: 600px;
+    margin-left:80px;
+    border-radius: 2px;
+}
+
+.comment_header{
+    size:10px;
+    color:#269abc;
+    padding:4px;
+}
+
+.comment_content{
+    size:16px;
+    color:#0f0f0f;
+    padding:4px;
+}

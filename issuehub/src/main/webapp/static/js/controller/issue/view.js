@@ -8,6 +8,8 @@ issuehubApp.controller('viewIssueController',
                 var self = this;
 
                 $scope.issueDetails = {};
+                
+                $scope.newComment="";
 
                 $scope.reporterUserName = null;
                 $scope.updatedByUserName = null;
@@ -52,6 +54,34 @@ issuehubApp.controller('viewIssueController',
                                     failureMsgRetention: 0
                                 });
                     }
+                    
+                    if(issueDetails.comments){
+                        for(var i in issueDetails.comments){
+                            var comment=issueDetails.comments[i];
+                            
+                            alert(angular.toJson(comment,true));
+                            
+                            HttpService.call('api/users/' + comment.userId, 'GET', {},
+                                {
+                                    failureMessage: 'Error fetching user details',
+                                    successCallback: function(responseData) {
+                                        if (responseData) {
+                                            if(responseData.userName){
+                                                comment.userName=responseData.userName;
+                                            }
+                                            else{
+                                                comment.userName="Unknown User";
+                                            }
+                                        }
+                                    },
+                                    failureCallback: function(responseData) {
+
+                                    },
+                                    failureMsgRetention: 0
+                                });
+                            
+                        }
+                    }
 
                 };
 
@@ -61,19 +91,27 @@ issuehubApp.controller('viewIssueController',
                         //alert(angular.toJson(issueDetails,true));
                         $scope.issueTypes = data;
 
-                        for (var i in $scope.issueTypes){
-                            var issueType=$scope.issueTypes[i];
+                        for (var i in $scope.issueTypes) {
+                            var issueType = $scope.issueTypes[i];
                             //alert(angular.toJson(issueType,true)+" ~ "+issueDetails.issueTypeName);
                             if (issueType.issueTypeName === issueDetails.issueTypeName) {
-                                $scope.statusList=issueType.statusList;
-                                
+                                $scope.statusList = issueType.statusList;
+
                             }
                         }
                     });
                 };
-                
-                $scope.loadSubStatus=function(status){
-                    alert("fdfd");
+
+                $scope.$watch(function(scope) {
+                    return scope.issueDetails.status;
+                },
+                        function(newValue, oldValue) {
+                            //alert(newValue, oldValue);
+                        }
+                );
+
+                $scope.loadSubStatus = function(status) {
+                    //alert("fdfd");
                 };
 
                 $scope.convertTimestamp = function(timestamp) {
@@ -91,14 +129,22 @@ issuehubApp.controller('viewIssueController',
 
                 $scope.saveIssue = function() {
                     HttpService.call('api/issues/' + $routeParams.issueNumber, 'PUT', {
-                        userName: $scope.user.userName,
-                        email: $scope.user.email,
-                        password: $scope.user.password,
-                        adminFlag: $scope.user.adminFlag
+                        saveIssueDetails: {
+                            title:$scope.issueDetails.title,
+                            description:$scope.issueDetails.description,
+                            priority:$scope.issueDetails.priority,
+                            assigneeUserId:$scope.issueDetails.assigneeUserId,
+                            status:$scope.issueDetails.status,
+                            substatus:$scope.issueDetails.substatus
+                        },
+                        commentDetails:{
+                            userId:null,
+                            comment:$scope.newComment
+                        }
                     },
                     {
-                        successMessage: 'User details saved',
-                        failureMessage: 'Could not update user details',
+                        successMessage: 'Issue details saved',
+                        failureMessage: 'Could not update issue details',
                         successCallback: function(responseData) {
 
                         },
@@ -125,7 +171,7 @@ issuehubApp.controller('viewIssueController',
                                 failureMessage: 'Error fetching issue details',
                                 successCallback: function(responseData) {
                                     if (responseData) {
-                                        //alert(angular.toJson(responseData, true));
+                                        alert("Issue details: "+angular.toJson(responseData, true));
                                         $scope.issueDetails = responseData;
                                         self.updateUserNames(responseData);
                                         self.updateStatusList(responseData);
