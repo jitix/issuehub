@@ -1,6 +1,12 @@
 # IssueHub
 Agile Issue Tracker
 
+######Features
+* Issue types and status' configurable in DB
+* User/Admin permissions
+* Issue comments
+* Change assignee
+* Sub status for selected status
 
 ######UI Library Versions:
 * AngularJS: 1.3.16
