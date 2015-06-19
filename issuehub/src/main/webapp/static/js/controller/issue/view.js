@@ -59,7 +59,7 @@ issuehubApp.controller('viewIssueController',
                         for(var i in issueDetails.comments){
                             var comment=issueDetails.comments[i];
                             
-                            alert(angular.toJson(comment,true));
+                            //alert(angular.toJson(comment,true));
                             
                             HttpService.call('api/users/' + comment.userId, 'GET', {},
                                 {
@@ -146,7 +146,7 @@ issuehubApp.controller('viewIssueController',
                         successMessage: 'Issue details saved',
                         failureMessage: 'Could not update issue details',
                         successCallback: function(responseData) {
-
+                            self.fetchData();
                         },
                         failureCallback: function(responseData) {
 
@@ -171,7 +171,7 @@ issuehubApp.controller('viewIssueController',
                                 failureMessage: 'Error fetching issue details',
                                 successCallback: function(responseData) {
                                     if (responseData) {
-                                        alert("Issue details: "+angular.toJson(responseData, true));
+                                        //alert("Issue details: "+angular.toJson(responseData, true));
                                         $scope.issueDetails = responseData;
                                         self.updateUserNames(responseData);
                                         self.updateStatusList(responseData);

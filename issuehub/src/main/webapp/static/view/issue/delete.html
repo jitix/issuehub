@@ -1,3 +1,7 @@
 <div class="container">
-    <div>Delete Issue</div>
+    <div class="dialog">
+        <h2>Delete Issue {{issueDetails.issueNumber}}</h2>
+        <button ng-click="back()" class="btn btn-sm btn-primary" type="submit">Cancel</button>
+        <button ng-click="deleteIssue()" class="btn btn-sm btn-danger" type="submit">Delete</button>
+    </div>
 </div> 
