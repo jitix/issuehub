@@ -7,16 +7,19 @@ public class NewIssueDetails {
     private String description;
 
     private String issueTypeName;
+    
+    private String priority;
 
     private String assigneeUserId;
 
     public NewIssueDetails() {
     }
 
-    public NewIssueDetails(String title, String description, String issueTypeName, String assigneeUserId) {
+    public NewIssueDetails(String title, String description, String issueTypeName, String priority, String assigneeUserId) {
         this.title = title;
         this.description = description;
         this.issueTypeName = issueTypeName;
+        this.priority = priority;
         this.assigneeUserId = assigneeUserId;
     }
 
@@ -44,6 +47,14 @@ public class NewIssueDetails {
         this.issueTypeName = issueTypeName;
     }
 
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
     public String getAssigneeUserId() {
         return assigneeUserId;
     }
@@ -54,7 +65,7 @@ public class NewIssueDetails {
 
     @Override
     public String toString() {
-        return "NewIssueDetails{" + "title=" + title + ", description=" + description + ", issueTypeName=" + issueTypeName + ", assigneeUserId=" + assigneeUserId + '}';
+        return "NewIssueDetails{" + "title=" + title + ", description=" + description + ", issueTypeName=" + issueTypeName + ", priority=" + priority + ", assigneeUserId=" + assigneeUserId + '}';
     }
 
 }

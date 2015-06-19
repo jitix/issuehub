@@ -1,6 +1,6 @@
 issuehubApp.controller('createIssueController',
-        ['$scope', '$location', 'HttpService', 'SessionService','MessageService','IssueTypeService',
-            function($scope, $location, HttpService, SessionService, MessageService, IssueTypeService) {
+        ['$scope', '$location', 'HttpService', 'SessionService','MessageService','IssueTypeService','UserService',
+            function($scope, $location, HttpService, SessionService, MessageService, IssueTypeService, UserService) {
 
                 SessionService.checkUserSession(
                         '/', 'You need to be logged in to create new issue');
@@ -9,12 +9,16 @@ issuehubApp.controller('createIssueController',
 
                 $scope.issueTypes = [];
                 
+                $scope.users=[];
+                
+                $scope.priorities=["High","Medium","Low"];
+                
                 $scope.selectIssueType=function(issueTypeId){
                     alert(issueTypeId);
                 };
 
                 $scope.createIssue = function() {
-                    HttpService.call('api/issues/', 'POST', $scope.userDetails,
+                    HttpService.call('api/issues/', 'POST', $scope.newIssueDetails,
                             {
                                 failureMessage: 'Error creating new issue',
                                 failureMsgRetention: 0,
@@ -30,12 +34,16 @@ issuehubApp.controller('createIssueController',
                             });
                 };
                 
-                this.getIssueTypes=function(){
+                this.fetchLists=function(){
                     IssueTypeService.fetchIssueTypes(function(data){
                         //alert(angular.toJson(data,true));
                         $scope.issueTypes=data;
                     });
+                    
+                    UserService.fetchUsers(function(data){
+                        $scope.users=data;
+                    });
                 };
                 
-                this.getIssueTypes();
+                this.fetchLists();
             }])

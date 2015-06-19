@@ -15,6 +15,8 @@ public class Issue {
     private String description;
 
     private String issueTypeName;
+    
+    private String priority;
 
     private String reporterUserId;
 
@@ -35,11 +37,12 @@ public class Issue {
     public Issue() {
     }
 
-    public Issue(Integer issueNumber, String title, String description, String issueTypeName, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, String updatedByUserId, Long updatedTimestamp, List<Comment> comments) {
+    public Issue(Integer issueNumber, String title, String description, String issueTypeName, String priority, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, String updatedByUserId, Long updatedTimestamp, List<Comment> comments) {
         this.issueNumber = issueNumber;
         this.title = title;
         this.description = description;
         this.issueTypeName = issueTypeName;
+        this.priority = priority;
         this.reporterUserId = reporterUserId;
         this.reportedTimestamp = reportedTimestamp;
         this.assigneeUserId = assigneeUserId;
@@ -80,6 +83,14 @@ public class Issue {
 
     public void setIssueTypeName(String issueTypeName) {
         this.issueTypeName = issueTypeName;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public String getReporterUserId() {
@@ -148,7 +159,7 @@ public class Issue {
 
     @Override
     public String toString() {
-        return "Issue{" + "issueNumber=" + issueNumber + ", title=" + title + ", description=" + description + ", issueTypeName=" + issueTypeName + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
+        return "Issue{" + "issueNumber=" + issueNumber + ", title=" + title + ", description=" + description + ", issueTypeName=" + issueTypeName + ", priority=" + priority + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + ", comments=" + comments + '}';
     }
-
+    
 }

@@ -1,3 +1,10 @@
+//$('.selectpicker').selectpicker();
+//
+//$('.selectpicker').selectpicker({
+//    style: 'btn-info',
+//    size: 4
+//});
+
 var viewPath = 'static/view/';
 
 //create module

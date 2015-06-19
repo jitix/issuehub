@@ -12,12 +12,14 @@ import net.jitix.issuehub.vo.IssueInfo;
 import net.jitix.issuehub.vo.NewIssueDetails;
 import net.jitix.issuehub.vo.SaveIssueDetails;
 import net.jitix.issuehub.vo.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class IssueServiceImpl implements IssueService {
@@ -27,6 +29,9 @@ public class IssueServiceImpl implements IssueService {
     
     @Autowired
     private IssueTypeService issueTypeService;
+    
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ObjectMappingUtil mappingUtil;
@@ -50,7 +55,33 @@ public class IssueServiceImpl implements IssueService {
     public Integer createNewIssue(UserDetails reporterDetails, NewIssueDetails issueDetails) throws AppException {
         long timestamp = System.currentTimeMillis();
 
+        if(StringUtils.isBlank(issueDetails.getTitle())){
+            throw new AppException("Please set a title");
+        }
+        
+        if(StringUtils.isBlank(issueDetails.getDescription())){
+            throw new AppException("Please set a description");
+        }
+        
+        if(StringUtils.isBlank(issueDetails.getIssueTypeName())){
+            throw new AppException("Please select an issue type");
+        }
+        
+        if(StringUtils.isBlank(issueDetails.getPriority())){
+            throw new AppException("Please select a priority");
+        }
+        
+        if(StringUtils.isBlank(issueDetails.getAssigneeUserId())){
+            throw new AppException("Please select an assignee");
+        }
+        
         IssueType issueType = this.issueTypeService.getIssueTypeByName(issueDetails.getIssueTypeName());
+        if(issueType==null){
+            throw new AppException("Invalid issue type");
+        }
+        else{
+            System.out.println(issueType);
+        }
 
         Issue issue = this.mappingUtil.map(issueDetails, Issue.class);
 
@@ -60,7 +91,9 @@ public class IssueServiceImpl implements IssueService {
         issue.setUpdatedByUserId(reporterDetails.getUserId());
         issue.setUpdatedTimestamp(timestamp);
         issue.setStatus(issueType.getStatusList().get(0).getStatus());
-        issue.setSubstatus(issueType.getStatusList().get(0).getSubstatusList().get(0));
+        if(!CollectionUtils.isEmpty(issueType.getStatusList().get(0).getSubstatusList())){
+            issue.setSubstatus(issueType.getStatusList().get(0).getSubstatusList().get(0));
+        }
         issue.setComments(new ArrayList<>(0));
 
         this.connService.getMongoOperations().save(issue);
@@ -75,9 +108,16 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<IssueInfo> listIssues() throws AppException {
-        return this.mappingUtil.mapList(
+        List<IssueInfo> issueInfoList= this.mappingUtil.mapList(
                 this.connService.getMongoOperations().findAll(Issue.class),
                 IssueInfo.class);
+        
+        for(IssueInfo issueInfo:issueInfoList){
+            issueInfo.setReporterUserName(this.userService.getUser(issueInfo.getReporterUserId()).getUserName());
+            issueInfo.setAssigneeUserName(this.userService.getUser(issueInfo.getAssigneeUserId()).getUserName());
+        }
+        
+        return issueInfoList;
     }
 
     @Override

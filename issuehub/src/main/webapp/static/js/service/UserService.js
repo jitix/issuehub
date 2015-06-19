@@ -1,23 +1,23 @@
-issuehubApp.service("IssueTypeService",
+issuehubApp.service("UserService",
         ['$rootScope', '$location', 'HttpService', 'MessageService',
             function($rootScope, $location, HttpService, MessageService) {
 
                 var self = this;
 
-                this.issueTypes = [];
+                this.users = [];
 
-                this.setIssueTypes = function(issueTypes) {
+                this.setUsers = function(users) {
                     //alert(angular.toJson(issueTypes,true));
-                    this.issueTypes = angular.fromJson(angular.toJson(issueTypes));
+                    this.users = angular.fromJson(angular.toJson(users));
                 };
 
-                this.fetchIssueTypes = function(successCallback) {
+                this.fetchUsers = function(successCallback) {
                     //get session from backend
-                    HttpService.call('api/issuetypes/', 'GET', {},
+                    HttpService.call('api/users/', 'GET', {},
                             {
                                 successCallback: function(responseData) {
                                     if (responseData) {
-                                        self.setIssueTypes(responseData);
+                                        self.setUsers(responseData);
                                     }
                                     if (successCallback) {
                                         successCallback(responseData);
@@ -29,20 +29,22 @@ issuehubApp.service("IssueTypeService",
                             });
                 };
 
-                this.getIssueTypes = function() {
-                    return this.issueTypes;
+                this.getUsers = function() {
+                    return this.users;
                 };
 
-                this.getIssueType = function(issueTypeId) {
-                    for (var issueType in this.issueTypes) {
-                        if(issueType.issueTypeId===issueTypeId){
-                            return issueType;
+                this.getUser = function(userId) {
+                    for (var user in this.users) {
+                        if (user.userId===userId){
+                            return user;
                         }
                     }
                     
                     return null;
                 };
 
-                this.fetchIssueTypes();
+                this.fetchUsers();
 
             }])
+
+

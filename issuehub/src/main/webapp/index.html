@@ -6,9 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>IssueHub</title>
 
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>-->
+
         <script src="static/js/lib/angular.min.js"></script>
         <script src="static/js/lib/angular-route.js"></script>
+        <!--        <script src="static/js/lib/bootstrap.min.js"></script>-->
+        <!--        <script src="static/js/lib/bootstrap-select.min.js"></script>-->
+        <!--        <script src="static/js/lib/jquery-1.11.3.min.js"></script>-->
         <link href="static/css/bootstrap.min.css" rel="stylesheet">
+        <!--        <link href="static/css/bootstrap-select.min.css" rel="stylesheet">-->
+
+        <!--        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+                <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-sanitize.js"></script>-->
 
         <link href="static/css/app.css" rel="stylesheet">
         <script src="static/js/app.js"></script>
@@ -18,17 +29,18 @@
         <script src="static/js/service/HttpService.js"></script>
         <script src="static/js/service/SessionService.js"></script>
         <script src="static/js/service/IssueTypeService.js"></script>
+        <script src="static/js/service/UserService.js"></script>
 
         <script src="static/js/controller/nav.js"></script>
         <script src="static/js/controller/msg.js"></script>
         <script src="static/js/controller/login.js"></script>
         <script src="static/js/controller/dashboard.js"></script>
-        
+
         <script src="static/js/controller/user/create.js"></script>
         <script src="static/js/controller/user/list.js"></script>
         <script src="static/js/controller/user/view.js"></script>
         <script src="static/js/controller/user/delete.js"></script>
-        
+
         <script src="static/js/controller/issue/create.js"></script>
         <script src="static/js/controller/issue/list.js"></script>
         <script src="static/js/controller/issue/view.js"></script>
@@ -50,14 +62,14 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-left">
-<!--                        <li ng-show="loggedIn"><a href="#/"><i class="fa fa-home"></i> Dashboard</a></li>-->
+                        <!--                        <li ng-show="loggedIn"><a href="#/"><i class="fa fa-home"></i> Dashboard</a></li>-->
                         <li ng-show="loggedIn"><a href="#/issues"><i class="fa fa-shield"></i> Issues</a></li>
                         <li ng-show="loggedIn"><a href="#/reports"><i class="fa fa-shield"></i> Reports</a></li>
                         <li ng-show="loggedIn && isAdmin"><a href="#/users"><i class="fa fa-shield"></i> Users</a></li>
-<!--                        <li ng-show="loggedIn && isAdmin"><a href="#/projects"><i class="fa fa-shield"></i> Projects</a></li>
-                        <li ng-show="loggedIn && isAdmin"><a href="#/issuetypes"><i class="fa fa-shield"></i> IssueTypes</a></li>-->
+                        <!--                        <li ng-show="loggedIn && isAdmin"><a href="#/projects"><i class="fa fa-shield"></i> Projects</a></li>
+                                                <li ng-show="loggedIn && isAdmin"><a href="#/issuetypes"><i class="fa fa-shield"></i> IssueTypes</a></li>-->
                     </ul>
-                    
+
                     <ul class="nav navbar-nav navbar-right">
                         <li ng-show="loggedIn"><a href="#/users/{{userId}}"><i class="fa fa-shield"></i> Profile</a></li>
                         <li ng-show="loggedIn"><button class="fa fa-shield btn btn-sm btn-info btn-toolbar logout-btn" ng-click="logout()">Logout</button></li>
@@ -71,9 +83,9 @@
                 {{msgText}}&nbsp;&nbsp;
                 <a href="javascript:void()" ng-click="close()">X</a>
             </div>
-<!--            <div class="alert alert-info" role="alert" ng-show="(msgType === 'info')">{{msgText}}</div>
-            <div class="alert alert-success" role="alert" ng-show="(msgType === 'success')">{{msgText}}</div>
-            <div class="alert alert-warning" role="alert" ng-show="(msgType === 'warning')">{{msgText}}</div>-->
+            <!--            <div class="alert alert-info" role="alert" ng-show="(msgType === 'info')">{{msgText}}</div>
+                        <div class="alert alert-success" role="alert" ng-show="(msgType === 'success')">{{msgText}}</div>
+                        <div class="alert alert-warning" role="alert" ng-show="(msgType === 'warning')">{{msgText}}</div>-->
         </div>
 
         <!-- MAIN CONTENT AND INJECTED VIEWS -->

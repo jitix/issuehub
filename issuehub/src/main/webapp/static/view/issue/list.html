@@ -16,8 +16,8 @@
                 <th>Type</th>
                 <th>Created</th>
                 <th>Created By</th>
-                <th>Updated By</th>
                 <th>Last Updated</th>
+                <th>Updated By</th>
                 <th>Status</th>
                 <th></th>
             </tr>
@@ -26,11 +26,11 @@
             <tr ng-repeat="issue in issueList">
                 <td>{{issue.issueNumber}}</td>
                 <td>{{issue.title}}</td>
-                <td>{{issue.issueTypeId}}</td>
-                <td>{{issue.reportedTimestamp}}</td>
-                <td>{{issue.reporterUserId}}</td>
-                <td>{{issue.updatedByUserId}}</td>
-                <td>{{issue.updatedTimestamp}}</td>
+                <td>{{issue.issueTypeName}}</td>
+                <td>{{convertTimestamp(issue.reportedTimestamp)}}</td>
+                <td>{{issue.reporterUserName}}</td>
+                <td>{{convertTimestamp(issue.updatedTimestamp)}}</td>
+                <td>{{issue.updatedByUserName}}</td>
                 <td>{{issue.status}}</td>
                 <td class="list_action">
                     <span class="pull-right">

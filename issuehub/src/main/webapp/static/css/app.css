@@ -42,3 +42,7 @@
 .option_text{
     color: #cccccc;
 }
+
+.small_dropdown{
+    max-width: 200px;
+}

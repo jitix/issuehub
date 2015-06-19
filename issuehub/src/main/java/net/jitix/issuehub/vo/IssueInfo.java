@@ -6,13 +6,19 @@ public class IssueInfo {
 
     private String title;
 
-    private Integer issueTypeId;
+    private String issueTypeName;
 
+    private String priority;
+    
     private String reporterUserId;
+    
+    private String reporterUserName;
 
     private Long reportedTimestamp;
 
     private String assigneeUserId;
+    
+    private String assigneeUserName;
 
     private String status;
 
@@ -25,13 +31,16 @@ public class IssueInfo {
     public IssueInfo() {
     }
 
-    public IssueInfo(Integer issueNumber, String title, Integer issueTypeId, String reporterUserId, Long reportedTimestamp, String assigneeUserId, String status, String substatus, String updatedByUserId, Long updatedTimestamp) {
+    public IssueInfo(Integer issueNumber, String title, String issueTypeName, String priority, String reporterUserId, String reporterUserName, Long reportedTimestamp, String assigneeUserId, String assigneeUserName, String status, String substatus, String updatedByUserId, Long updatedTimestamp) {
         this.issueNumber = issueNumber;
         this.title = title;
-        this.issueTypeId = issueTypeId;
+        this.issueTypeName = issueTypeName;
+        this.priority = priority;
         this.reporterUserId = reporterUserId;
+        this.reporterUserName = reporterUserName;
         this.reportedTimestamp = reportedTimestamp;
         this.assigneeUserId = assigneeUserId;
+        this.assigneeUserName = assigneeUserName;
         this.status = status;
         this.substatus = substatus;
         this.updatedByUserId = updatedByUserId;
@@ -54,12 +63,20 @@ public class IssueInfo {
         this.title = title;
     }
 
-    public Integer getIssueTypeId() {
-        return issueTypeId;
+    public String getIssueTypeName() {
+        return issueTypeName;
     }
 
-    public void setIssueTypeId(Integer issueTypeId) {
-        this.issueTypeId = issueTypeId;
+    public void setIssueTypeName(String issueTypeName) {
+        this.issueTypeName = issueTypeName;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public String getReporterUserId() {
@@ -68,6 +85,14 @@ public class IssueInfo {
 
     public void setReporterUserId(String reporterUserId) {
         this.reporterUserId = reporterUserId;
+    }
+
+    public String getReporterUserName() {
+        return reporterUserName;
+    }
+
+    public void setReporterUserName(String reporterUserName) {
+        this.reporterUserName = reporterUserName;
     }
 
     public Long getReportedTimestamp() {
@@ -84,6 +109,14 @@ public class IssueInfo {
 
     public void setAssigneeUserId(String assigneeUserId) {
         this.assigneeUserId = assigneeUserId;
+    }
+
+    public String getAssigneeUserName() {
+        return assigneeUserName;
+    }
+
+    public void setAssigneeUserName(String assigneeUserName) {
+        this.assigneeUserName = assigneeUserName;
     }
 
     public String getStatus() {
@@ -120,7 +153,7 @@ public class IssueInfo {
 
     @Override
     public String toString() {
-        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueTypeId=" + issueTypeId + ", reporterUserId=" + reporterUserId + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + '}';
+        return "IssueInfo{" + "issueNumber=" + issueNumber + ", title=" + title + ", issueTypeName=" + issueTypeName + ", priority=" + priority + ", reporterUserId=" + reporterUserId + ", reporterUserName=" + reporterUserName + ", reportedTimestamp=" + reportedTimestamp + ", assigneeUserId=" + assigneeUserId + ", assigneeUserName=" + assigneeUserName + ", status=" + status + ", substatus=" + substatus + ", updatedByUserId=" + updatedByUserId + ", updatedTimestamp=" + updatedTimestamp + '}';
     }
 
 }

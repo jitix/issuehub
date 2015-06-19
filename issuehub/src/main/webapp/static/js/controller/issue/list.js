@@ -7,16 +7,29 @@ issuehubApp.controller('listIssueController',
 
                 $scope.issueList = [];
 
+                $scope.convertTimestamp = function(timestamp) {
+                    var a = new Date(timestamp);
+                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    var year = a.getFullYear();
+                    var month = months[a.getMonth()];
+                    var date = a.getDate();
+                    var hour = a.getHours();
+                    var min = a.getMinutes();
+                    var sec = a.getSeconds();
+                    var time = month + ' '+ date + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+                    return time;
+                };
+
                 $scope.showNewIssue = function() {
                     $location.path("issues/create");
                 };
-                
+
                 $scope.showViewIssue = function(issueNumber) {
-                    $location.path("issues/"+issueNumber);
+                    $location.path("issues/" + issueNumber);
                 };
-                
+
                 $scope.showDeleteDialog = function(issueNumber) {
-                    $location.path("issues/"+issueNumber+"/delete");
+                    $location.path("issues/" + issueNumber + "/delete");
                 };
 
                 $scope.fetchIssues = function() {
