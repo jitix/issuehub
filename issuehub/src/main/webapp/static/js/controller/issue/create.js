@@ -12,10 +12,6 @@ issuehubApp.controller('createIssueController',
                 $scope.users=[];
                 
                 $scope.priorities=["High","Medium","Low"];
-                
-                $scope.selectIssueType=function(issueTypeId){
-                    alert(issueTypeId);
-                };
 
                 $scope.createIssue = function() {
                     HttpService.call('api/issues/', 'POST', $scope.newIssueDetails,
