@@ -18,4 +18,5 @@ Agile Issue Tracker
 * Run mongoDB on localhost with defaults
 * Create database 'issuehub'
 * Build the project and drop the war file in tomcat's webapp folder
+* Login with user 'admin@localhost' and password 'admin'
 
